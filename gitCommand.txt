@@ -1,0 +1,304 @@
+**********Process for below log
+
+***A commit of the repository is like a snapshot in time of your code
+***To modify code, create a parallel branch to make modifications to the code, when done, merge with the master (original) branch.
+***Keep at least 2 branches, 1 master, 1 for modifications
+***Link to your github account repository and push the modifications of the master branch to it as I write code
+
+***********Major steps for git operations, modifications, and pushing to github
+
+***********
+-Initialize git: 
+    git init
+-Link git to LMeisi on github: 
+    git config --global user.name LMeisi
+    git config --global user.email meisile@yahoo.com
+-Check status of git: 
+    git status
+
+***********
+-Stage files for commit on local repository: 
+    git add -A
+-Commit to repository: master branch (by default) - local repository created
+    git commit -m 'Initial commit'
+
+***********
+-Modify code in master branch (Not recommended Way but works)
+-Stage and commit to master branch again (not recommended)
+    git add -A
+    git commit -m 'Second commit' (name as example)
+-If you want the code to go back to the previous snapshot (previous commit)
+    git log     (to get the commit code, in yellow font, e.g. 804bcee9abc6a72129ba53a1130a51947b76ec85)
+    git reset --hard 804bcee9abc6a72129ba53a1130a51947b76ec85
+
+***********
+-To modify code in a new branch (Recommended Way)
+-Create a new-b branch (recommended for modifications, work in this branch first, then merge with master branch)
+    git branch new-b
+-Get into new-b branch (get ourselves into the branch so we are modifying code in this branch)
+    git checkout new-b
+-Modify code in new-b branch
+-Stage code in new-b branch
+    git add -A
+-Commit in new-b branch
+    git commit -m 'new commit in new-b'
+-Check git log (show commit history)
+    git log
+-Get back into the master branch
+    git checkout master
+-Merge new-b branch code with master branch - now master branch and new-b branch is the same
+    git merge new-b
+
+***********
+-Create repository on github, link the github repository to this local repository (copy below code from github to terminal)
+    git remote add origin https://github.com/LMeisi/NewsApp.git
+    NOTE: the remote branch name is defaulted to 'origin', just leave it, no need to change it
+-push master branch to github remote repository ('origin')
+    git push origin master
+-set up in github repository to publish on github pages
+
+
+**********Command logs below
+
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git init
+Initialized empty Git repository in C:/Users/soari/Documents/Web Development/Landing Pages/News App/.git/
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git config --global user.name LMeisi
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git config -- global user.email meisile@yahoo.com
+error: key does not contain a section: global
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git config --global user.email meisile@yahoo.com
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        .gitignore
+        API Document.txt
+        Registration complete - News API Key.pdf
+        config.js
+        general.css
+        helpers.js
+        index.html
+        manifest.webmanifest
+        script.js
+        style.css
+
+nothing added to commit but untracked files present (use "git add" to track)
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git add -A
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   .gitignore
+        new file:   API Document.txt
+        new file:   Registration complete - News API Key.pdf
+        new file:   config.js
+        new file:   general.css
+        new file:   helpers.js
+        new file:   index.html
+        new file:   manifest.webmanifest
+        new file:   script.js
+        new file:   style.css
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   script.js
+
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   .gitignore
+        new file:   API Document.txt
+        new file:   Registration complete - News API Key.pdf
+        new file:   config.js
+        new file:   general.css
+        new file:   helpers.js
+        new file:   index.html
+        new file:   manifest.webmanifest
+        new file:   script.js
+        new file:   style.css
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   script.js
+
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git add -A
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git status
+On branch master
+
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+        new file:   .gitignore
+        new file:   API Document.txt
+        new file:   Registration complete - News API Key.pdf
+        new file:   config.js
+        new file:   general.css
+        new file:   helpers.js
+        new file:   index.html
+        new file:   manifest.webmanifest
+        new file:   script.js
+        new file:   style.css
+
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git commit -m 'Initial commit'
+[master (root-commit) 5d3f58a] Initial commit
+ 10 files changed, 1607 insertions(+)
+ create mode 100644 .gitignore
+ create mode 100644 API Document.txt
+ create mode 100644 Registration complete - News API Key.pdf
+ create mode 100644 config.js
+ create mode 100644 general.css
+ create mode 100644 helpers.js
+ create mode 100644 index.html
+ create mode 100644 manifest.webmanifest
+ create mode 100644 script.js
+ create mode 100644 style.css
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git status
+On branch master
+nothing to commit, working tree clean
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git log
+commit 5d3f58a7e43d6d361fe46c5dd7b540ae80ef3738 (HEAD -> master)
+Author: LMeisi <meisile@yahoo.com>
+Date:   Tue Oct 10 16:41:20 2023 -0700
+
+    Initial commit
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git status
+On branch master
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   script.js
+
+no changes added to commit (use "git add" and/or "git commit -a")
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git add -A
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git commit -m "second commit"
+[master 804bcee] second commit
+ 1 file changed, 2 deletions(-)
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git status
+On branch master
+nothing to commit, working tree clean
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git log
+commit 804bcee9abc6a72129ba53a1130a51947b76ec85 (HEAD -> master)
+Author: LMeisi <meisile@yahoo.com>
+Date:   Tue Oct 10 16:48:06 2023 -0700
+
+    second commit
+
+commit 5d3f58a7e43d6d361fe46c5dd7b540ae80ef3738
+Author: LMeisi <meisile@yahoo.com>
+Date:   Tue Oct 10 16:41:20 2023 -0700
+
+    Initial commit
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git reset --hard 804bcee9abc6a72129ba53a1130a51947b76ec85
+HEAD is now at 804bcee second commit
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git reset --hard 5d3f58a7e43d6d361fe46c5dd7b540ae80ef3738
+HEAD is now at 5d3f58a Initial commit
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git branch
+* master
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> q
+q : The term 'q' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that 
+the path is correct and try again.
+At line:1 char:1
++ q
++ ~
+    + CategoryInfo          : ObjectNotFound: (q:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git branch new-b  
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git checkout new-b
+Switched to branch 'new-b'
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git add -A
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git commit -m 'new commit in new-b'
+[new-b 374269f] new commit in new-b
+ 1 file changed, 2 deletions(-)
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git branch
+  master
+* new-b
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git checkout master
+Switched to branch 'master'
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git checkout new-b
+Switched to branch 'new-b'
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git checkout master
+Switched to branch 'master'
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git merge new-b
+Updating 5d3f58a..374269f
+Fast-forward
+ script.js | 2 --
+ 1 file changed, 2 deletions(-)
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git log
+commit 374269f30b0793ebe04c158309559eb4f0a3c154 (HEAD -> master, new-b)
+Author: LMeisi <meisile@yahoo.com>
+Date:   Tue Oct 10 16:54:18 2023 -0700
+
+    new commit in new-b
+
+commit 5d3f58a7e43d6d361fe46c5dd7b540ae80ef3738
+Author: LMeisi <meisile@yahoo.com>
+Date:   Tue Oct 10 16:41:20 2023 -0700
+
+    Initial commit
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git status
+On branch master
+nothing to commit, working tree clean
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git remote add origin https://github.com/LMeisi/NewsApp.git
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git branch
+* master
+  new-b
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git push origin master
+info: please complete authentication in your browser...
+Enumerating objects: 15, done.
+Counting objects: 100% (15/15), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (13/13), done.
+Writing objects: 100% (15/15), 68.11 KiB | 11.35 MiB/s, done.
+Total 15 (delta 2), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (2/2), done.
+To https://github.com/LMeisi/NewsApp.git
+ * [new branch]      master -> master
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git push origin new-b
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
+remote: 
+remote: Create a pull request for 'new-b' on GitHub by visiting:
+remote:      https://github.com/LMeisi/NewsApp/pull/new/new-b
+remote:
+To https://github.com/LMeisi/NewsApp.git
+ * [new branch]      new-b -> new-b
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> touch README.md
+touch : The term 'touch' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, 
+verify that the path is correct and try again.
+At line:1 char:1
++ touch README.md
++ ~~~~~
+    + CategoryInfo          : ObjectNotFound: (touch:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git branch
+* master
+  new-b
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git add -A
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git commit -m 'Added Readme'
+[master 1c3d38d] Added Readme
+ 1 file changed, 3 insertions(+)
+ create mode 100644 README.md
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git push origin master
+Enumerating objects: 4, done.
+Counting objects: 100% (4/4), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 307 bytes | 307.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/LMeisi/NewsApp.git
+   374269f..1c3d38d  master -> master
+PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> 

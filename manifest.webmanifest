@@ -1,0 +1,14 @@
+{
+  "icons": [
+    {
+      "src": "img/logo/logo-pic-192by192.jpg",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "img/logo/logo-pic-512by512.jpg",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

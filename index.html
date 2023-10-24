@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!-- Meta description -->
+    <meta
+      name="description"
+      content="News Nuggies V3 - Best nuggets for your news cravings"
+    />
+
+    <!-- jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-1.12.4.min.js"
+      integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- bootstrap link for js -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Default bootstrap link for CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+
+    <!-- icon in title - 64 by 64 -->
+    <link rel="icon" href="img/news logo squared 64.jpg" />
+
+    <!-- icon for iOS homescreen as favorited website 180 by 180 -->
+    <link rel="apple-touch-icon" href="img/news logo squared 180.jpg" />
+
+    <!-- icon for Android homescreen as favorited website - create manifest.webmanifest file -->
+    <!-- NOTE in the manifest.webmanifest file, specify the imgs sizes as 512 by 512, and 192 by 192 -->
+    <link rel="manifest" href="manifest.webmanifest" />
+
+    <!-- Google Font: Nunito -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700"
+      rel="stylesheet"
+    />
+
+    <!-- Google Fonts: Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Google Fonts: Rubik -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"
+    />
+
+    <!-- ion icons -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"
+    ></script>
+
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon" />
+
+    <!-- <link rel="stylesheet" href="src/sass/main.scss" /> -->
+    <!-- <script type="module" src="src/js/controller.js"></script> -->
+
+    <!-- Custom CSS stylesheet -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="general.css" />
+
+    <!-- javascript file -->
+    <!-- moment.js API - Used to display time difference from publishing date till now -->
+    <script src="moment.js"></script>
+    <script type="module" src="script.js"></script>
+
+    <title>News Nuggies V3 // Search For Bite-sized News</title>
+  </head>
+
+  <body>
+    <div class="container-box">
+      <header class="header">
+        <img
+          src="img/news logo v2-revised.png"
+          alt="Logo"
+          class="header__logo"
+        />
+        <form class="search" id="searchForm">
+          <input
+            type="text"
+            class="search__field"
+            placeholder="Search from Mediastack API..."
+          />
+          <button class="btn search__btn" type="button">
+            <svg class="search__icon">
+              <use href="img/icons.svg#icon-search"></use>
+            </svg>
+            <span>V3 SEARCH</span>
+          </button>
+        </form>
+
+        <nav class="nav">
+          <ul class="nav__list">
+            <!-- <li class="nav__item">
+              <button class="nav__btn nav__btn--add-recipe">
+                <svg class="nav__icon">
+                  <use href="img/icons.svg#icon-edit"></use>
+                </svg>
+                <span>Add recipe</span>
+              </button>
+            </li> -->
+            <li class="nav__item">
+              <button class="nav__btn nav__btn--bookmarks" type="button">
+                <svg class="nav__icon">
+                  <use href="img/icons.svg#icon-bookmark"></use>
+                </svg>
+                <span>Bookmarks</span>
+              </button>
+              <div class="bookmarks">
+                <ul class="bookmarks__list">
+                  <div class="message">
+                    <div>
+                      <svg>
+                        <use href="img/icons.svg#icon-smile"></use>
+                      </svg>
+                    </div>
+                    <p>No bookmarks yet.</p>
+                  </div>
+
+                  <!-- <li class="preview">
+                    <a class="preview__link" href="#23456">
+                      <figure class="preview__fig">
+                        <img src="img/test-1.jpg" alt="Test" />
+                      </figure>
+                      <div class="preview__data">
+                        <h4 class="preview__name">
+                          Pasta with Tomato Cream ...
+                        </h4>
+                        <p class="preview__publisher">The Pioneer Woman</p>
+                      </div>
+                    </a>
+                  </li> -->
+                </ul>
+              </div>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <div class="search-results">
+        <!-- sort options -->
+        <div class="results-options row mx-0 my-0 gx-0">
+          <!-- results totals container-->
+          <!-- <div class="results-total-container">
+            <div class="results-total d-flex">
+              <p class="results-total-title me-2">Total Results:</p>
+              <p class="results-total-num me-5 fw-bold">20300</p>
+              <p class="results-total-page me-2">Total Pages:</p>
+              <p class="results-total-page-num fw-bold">2030</p>
+            </div>
+          </div> -->
+          <!-- "sort by" -->
+          <!-- <div class="sort-title col-5">
+            <p>Sort by:</p>
+          </div> -->
+          <!-- sort options -->
+          <!-- <div class="sort-container col-7 d-flex justify-content-around">
+            <div class="sort-opion">
+              <a class="sort-btn-relevancy" href="">
+                <p>Relevancy</p>
+              </a>
+            </div>
+            <div class="sort-opion">
+              <a class="sort-btn-relevancy" href="">
+                <p>Date</p>
+              </a>
+            </div>
+            <div class="sort-opion">
+              <a class="sort-btn-relevancy" href="">
+                <p>Popularity</p>
+              </a>
+            </div>
+          </div> -->
+        </div>
+        <!-- search results -->
+        <ul class="results">
+          <!-- 
+          <li class="preview">
+            <a class="preview__link preview__link--active" href="#23456">
+              <figure class="preview__fig">
+                <img src="img/test-1.jpg" alt="Test" />
+              </figure>
+              <div class="preview__data">
+                <h4 class="preview__title">Pasta with Tomato Cream ...</h4>
+                <p class="preview__publisher">The Pioneer Woman</p>
+                <div class="preview__user-generated">
+                  <svg>
+                    <use href="img/icons.svg#icon-user"></use>
+                  </svg>
+                </div>
+              </div>
+            </a>
+          </li>
+           -->
+
+          <!-- <li class="preview"> -->
+          <!-- <a class="preview__link preview__link--active" href=""> -->
+          <!-- Flexbox Vertical -->
+          <!-- <div class="preview-container d-flex flex-column"> -->
+          <!-- Top grid -->
+          <!-- <div class="preview-info row"> -->
+          <!-- Col containing source and title - flexbox -->
+          <!-- <div class="preview-data col-8 d-flex flex-column"> -->
+          <!-- <p class="preview__publisher">Engadget</p> -->
+          <!-- <h4 class="preview__title"> -->
+          <!-- Using the fade out way to fade out multiple line truncation https://css-tricks.com/line-clampin/ -->
+          <!-- Everything announced at today's Apple event: iPhone 15, -->
+          <!-- USB-C, Apple Watch Series 9 and more -->
+          <!-- </h4> -->
+          <!-- </div> -->
+          <!-- Col containing url img -->
+          <!-- <div -->
+          <!-- class="preview-fig-container col-4 d-flex justify-content-end" -->
+          <!-- > -->
+          <!-- <figure class="preview__fig"> -->
+          <!-- <img -->
+          <!-- src="https://i.kinja-img.com/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/6c47aa6b2516616722ec1a0a39050523.png" -->
+          <!-- alt="newsImg" -->
+          <!-- /> -->
+          <!-- </figure> -->
+          <!-- </div> -->
+          <!-- </div> -->
+          <!-- Bottom grid -->
+          <!-- <div class="preview-support-info row align-items-center"> -->
+          <!-- Published time from now -->
+          <!-- <div class="preview-pub-time-container col-8"> -->
+          <!-- <p class="preview-pub-time">10 hours ago</p> -->
+          <!-- </div> -->
+          <!-- Bookmark? -->
+          <!-- <div -->
+          <!-- class="preview-bookmark-container col-4 d-flex justify-content-end" -->
+          <!-- > -->
+          <!-- <button class="btn--round btn-round-preview" type="button"> -->
+          <!-- <svg class=""> -->
+          <!-- <use href="img/icons.svg#icon-bookmark-fill"></use> -->
+          <!-- </svg> -->
+          <!-- </button> -->
+          <!-- </div> -->
+          <!-- </div> -->
+          <!-- </div> -->
+          <!-- </a> -->
+          <!-- </li> -->
+          <!-- <li class="preview"> -->
+          <!-- <a class="preview__link" href=""> -->
+          <!-- Flexbox Vertical -->
+          <!-- <div class="preview-container d-flex flex-column"> -->
+          <!-- Top grid -->
+          <!-- <div class="preview-info row"> -->
+          <!-- Col containing source and title - flexbox -->
+          <!-- <div class="preview-data col-8 d-flex flex-column"> -->
+          <!-- <p class="preview__publisher mb-1">Engadget</p> -->
+          <!-- <h4 class="preview__title"> -->
+          <!-- Everything announced at today's Apple event: iPhone 15, -->
+          <!-- USB-C, Apple Watch Series 9 and more -->
+          <!-- </h4> -->
+          <!-- </div> -->
+          <!-- Col containing url img -->
+          <!-- <div -->
+          <!-- class="preview-fig-container col-4 d-flex justify-content-end" -->
+          <!-- > -->
+          <!-- <figure class="preview__fig"> -->
+          <!-- <img -->
+          <!-- src="https://i.kinja-img.com/gawker-media/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/204163c57fbfd7e0b8caac63e0e19bc6.jpg" -->
+          <!-- alt="newsImg" -->
+          <!-- /> -->
+          <!-- </figure> -->
+          <!-- </div> -->
+          <!-- </div> -->
+          <!-- Bottom grid -->
+          <!-- <div class="preview-support-info row"> -->
+          <!-- Published time from now -->
+          <!-- <div class="preview-pub-time-container col-8"> -->
+          <!-- <p class="preview-pub-time">10 hours ago</p> -->
+          <!-- </div> -->
+          <!-- Bookmark? -->
+          <!-- <div -->
+          <!-- class="preview-bookmark-container col-4 d-flex justify-content-end" -->
+          <!-- > -->
+          <!-- <button class="btn--round btn-round-preview" type="button"> -->
+          <!-- <svg class=""> -->
+          <!-- <use href="img/icons.svg#icon-bookmark-fill"></use> -->
+          <!-- </svg> -->
+          <!-- </button> -->
+          <!-- </div> -->
+          <!-- </div> -->
+          <!-- </div> -->
+          <!-- </a> -->
+          <!-- </li> -->
+        </ul>
+        <!-- Loading spinner -->
+        <!-- <div class="spinner">
+          <svg>
+            <use href="img/icons.svg#icon-loader"></use>
+          </svg>
+        </div> -->
+
+        <!-- Pagination buttons -->
+        <div class="pagination row">
+          <!-- <button
+            class="btn--inline col-4 pagination__btn--prev justify-content-center"
+            type="button"
+          >
+            <ion-icon name="arrow-back-outline"></ion-icon>
+            <span class="">Page 1</span>
+          </button>
+          <div class="col-4"></div>
+          <button
+            class="btn--inline col-4 pagination__btn--next justify-content-center"
+            type="button"
+          >
+            <span>Page 3</span>
+            <ion-icon name="arrow-forward-outline"></ion-icon>
+          </button> -->
+        </div>
+
+        <!-- Footer -->
+        <p class="copyright">
+          &copy; Copyright by
+          <a
+            class="personal-link"
+            target="_blank"
+            href="https://github.com/LMeisi"
+            >Meisi Le</a
+          >. All Rights Reserved
+        </p>
+      </div>
+
+      <!-- News Pane -->
+      <div class="news d-flex flex-column">
+        <!-- Default search message -->
+        <!-- <div class="message">
+          <div>
+            <svg>
+              <use href="img/icons.svg#icon-smile"></use>
+            </svg>
+          </div>
+          <p>Start by searching for a News Nuggy. Have fun!</p>
+        </div> -->
+
+        <!-- Loading spinner -->
+        <!-- <div class="spinner">
+          <svg>
+            <use href="img/icons.svg#icon-loader"></use>
+          </svg>
+        </div> -->
+
+        <!-- <div class="error">
+            <div>
+              <svg>
+                <use href="img/icons.svg#icon-alert-triangle"></use>
+              </svg>
+            </div>
+            <p>No recipes found for your query. Please try again!</p>
+          </div> -->
+
+        <!-- news header -->
+        <!-- <div class="news-header d-flex flex-column px-5 pt-5 pb-4"> -->
+        <!-- source -->
+        <!-- <div class="news-source-container"> -->
+        <!-- <p
+              class="news-source fs-5 fw-bold align-middle mb-1 text-uppercase"
+            >
+              Engadget
+            </p>
+          </div> -->
+        <!-- title -->
+        <!-- <div class="news-title-container">
+            <h2 class="news-title fs-1 fw-bold">
+              These Four New Games Are Coming to Apple Arcade This Month
+            </h2>
+          </div> -->
+        <!-- news author and publish time -->
+        <!-- <div class="d-flex news-info-container"> -->
+        <!-- author -->
+        <!-- <div class="news-author-container d-flex fs-5 pe-4">
+              <span>By&nbsp;</span>
+              <p class="news-author fst-italic">Jake Peterson</p>
+            </div> -->
+        <!-- publish time -->
+        <!-- <div class="news-pub-time-container d-flex fs-5">
+              <span>Updated&nbsp;</span>
+              <p class="news-pub-time fst-italic">2023-10-03</p>
+            </div>
+          </div>
+        </div> -->
+
+        <!-- news img -->
+        <!-- <div class="news-img-container px-5">
+          <img
+            class="news-img"
+            src="https://i.kinja-img.com/image/upload/c_fill,f_auto,fl_progressive,g_center,h_675,pg_1,q_80,w_1200/6c47aa6b2516616722ec1a0a39050523.png"
+          />
+        </div> -->
+
+        <!-- news description -->
+        <!-- <div class="news-description-container px-5 pt-5 pb-4">
+          <h4 class="news-description">
+            In terms of value, it’s tough to beat Apple Arcade. The service
+            costs $5 per month following a one-month free trial, or comes as
+            part of an Apple One subscription. Heck, if you bought an Apple
+            device recently, like an iPhone 15, you get three months of Apple …
+          </h4>
+        </div> -->
+
+        <!-- news source and bookmark button -->
+        <!-- <div
+          class="news-action-container px-5 pt-1 d-flex justify-content-between align-items-center"
+        >
+          <a
+            class="news-source-btn-link text-decoration-none me-3"
+            href="https://lifehacker.com/these-four-new-games-are-coming-to-apple-arcade-this-mo-1850896428"
+          >
+            <button class="btn news-source-btn ms-1" type="button"> -->
+        <!-- <svg class="search__icon">
+              <use href="img/icons.svg#icon-search"></use>
+            </svg> -->
+        <!-- <span>See Full Article</span>
+            </button>
+          </a>
+          <a class="news-source-btn-bookmark text-decoration-none me-5" href="">
+            <button class="btn--round" type="button">
+              <svg class="">
+                <use href="img/icons.svg#icon-bookmark-fill"></use>
+              </svg>
+            </button>
+          </a>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="overlay hidden"></div>
+    <!-- <div class="add-recipe-window hidden">
+      <button class="btn--close-modal">&times;</button>
+      <form class="upload">
+        <div class="upload__column">
+          <h3 class="upload__heading">Recipe data</h3>
+          <label>Title</label>
+          <input value="TESTVALUE" required name="title" type="text" />
+          <label>URL</label>
+          <input value="TESTVALUE" required name="sourceUrl" type="text" />
+          <label>Image URL</label>
+          <input value="TESTVALUE" required name="image" type="text" />
+          <label>Publisher</label>
+          <input value="TESTVALUE" required name="publisher" type="text" />
+          <label>Prep time</label>
+          <input value="23" required name="cookingTime" type="number" />
+          <label>Servings</label>
+          <input value="23" required name="servings" type="number" />
+        </div>
+
+        <div class="upload__column">
+          <h3 class="upload__heading">Ingredients</h3>
+          <label>Ingredient 1</label>
+          <input
+            value="0.5,kg,Rice"
+            type="text"
+            required
+            name="ingredient-1"
+            placeholder="Format: 'Quantity,Unit,Description'"
+          />
+          <label>Ingredient 2</label>
+          <input
+            value="1,,Avocado"
+            type="text"
+            name="ingredient-2"
+            placeholder="Format: 'Quantity,Unit,Description'"
+          />
+          <label>Ingredient 3</label>
+          <input
+            value=",,salt"
+            type="text"
+            name="ingredient-3"
+            placeholder="Format: 'Quantity,Unit,Description'"
+          />
+          <label>Ingredient 4</label>
+          <input
+            type="text"
+            name="ingredient-4"
+            placeholder="Format: 'Quantity,Unit,Description'"
+          />
+          <label>Ingredient 5</label>
+          <input
+            type="text"
+            name="ingredient-5"
+            placeholder="Format: 'Quantity,Unit,Description'"
+          />
+          <label>Ingredient 6</label>
+          <input
+            type="text"
+            name="ingredient-6"
+            placeholder="Format: 'Quantity,Unit,Description'"
+          />
+        </div>
+
+        <button class="btn upload__btn">
+          <svg>
+            <use href="img/icons.svg#icon-upload-cloud"></use>
+          </svg>
+          <span>Upload</span>
+        </button>
+      </form>
+    </div> -->
+  </body>
+</html>
