@@ -13,6 +13,7 @@ import { timeout } from "./helpers.js";
 const searchButton = document.querySelector(".search__btn");
 
 // Search Results Pane
+const searchField = document.querySelector(".search__field"); // Search input field
 const searchResults = document.querySelector(".search-results"); // Search Results Pane
 const results = document.querySelector(".results"); // Search results
 const resultsOptions = document.querySelector(".results-options"); // sorting options container
@@ -44,7 +45,7 @@ const state = {
 // Function: Get Query: Function to return search input value
 function getQuery() {
   // Store input value to 'query'
-  const inputQuery = document.querySelector(".search__field").value;
+  const inputQuery = searchField.value;
 
   // Store query into state object
   state.search.query = inputQuery;
@@ -90,7 +91,7 @@ const loadSearchResults = async function (
     // language options: &languages=en,-de
     const response = await Promise.race([
       fetch(
-        `http://api.mediastack.com/v1/news?access_key=${API_KEY}&keywords=${query}&sort=popularity&languages=en&countries=us,ca`
+        `http://api.mediastack.com/v1/news?access_key=${API_KEY}&keywords=${query}&sort=${state.search.sortBy}&languages=en&countries=us,ca`
       ),
       timeout(TIMEOUT_SEC),
     ]);
@@ -408,9 +409,9 @@ function clearSearchResults() {
   }
 }
 
-// *********************************
-// Search button event handler
-searchButton.addEventListener("click", function () {
+// This function will be called when search button is clicked or 'enter' keydown pressed
+// It includes renderSpinner, loadSearchResults, renderSearchResults, renderErrorSearchResults function etc.
+function showSearchResults() {
   // Get query input and save to searchQuery
   let searchQuery = getQuery();
   console.log(searchQuery);
@@ -449,4 +450,16 @@ searchButton.addEventListener("click", function () {
       console.log(err);
       renderErrorSearchResults();
     });
+}
+
+// *********************************
+// Search button event handler, call showSearchResults() upon click
+searchButton.addEventListener("click", showSearchResults);
+
+//Key 'Enter' Event handler, call showSearchResults() upon 'enter' keydown
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Enter" && searchField.value) {
+    showSearchResults();
+    e.preventDefault();
+  }
 });
