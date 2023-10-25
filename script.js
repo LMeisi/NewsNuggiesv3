@@ -636,6 +636,7 @@ $("body").on("click", ".sort-btn-published-popularity", function (e) {
       // Render doesn't need to be async, all data is already local
       renderSearchResults(state.search);
 
+      // test
       // if sort desc is active, remove the active class; If not, don't change anything
       if (
         document
