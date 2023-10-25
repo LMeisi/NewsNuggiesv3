@@ -422,6 +422,11 @@ body {
   opacity: 1;
 }
 
+/* Sort Options */
+.sort-active {
+  font-weight: 700;
+}
+
 .preview__link:link,
 .preview__link:visited {
   border-right: 1px solid #fff;

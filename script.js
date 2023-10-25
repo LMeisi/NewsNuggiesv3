@@ -36,7 +36,7 @@ const state = {
     resultsToDisplay: [], // Results (articles) actually received on query and to be displayed on page, a chosen result will be copied into the state.news object
     page: 1, //state variable for current page number (that's being displayed), pagination will use this variable
     resultsPerPage: RES_PER_PAGE, // 'resultsPerPage' is how many results we want shown on one page of search results, get it from config.js (RES_PER_PAGE)
-    sortBy: "popularity", // By default, set search results to sort by popularity
+    sortBy: "published_desc", // By default, set search results to sort by publishing date in decending order (from latest)
   },
   bookmarks: [],
 };
@@ -67,9 +67,9 @@ const loadSearchResults = async function (
   pageNum = state.search.page
 ) {
   try {
-    // Check if it's search button click, if so, assign 'popularity' to search results; Otherwise, do nothing.
+    // Check if it's search button click, if so, assign 'published_desc' to search results; Otherwise, do nothing.
     if (searchBtnClick) {
-      state.search.sortBy = "popularity";
+      state.search.sortBy = "published_desc";
     }
     // Test sort options
     console.log(state.search.sortBy);
@@ -236,6 +236,47 @@ function renderSearchResults(data) {
   renderPagination(data.totalResults, data.resultsPerPage, data.page);
 }
 
+// Renders result options container (used for when rendering search results)
+function renderResultsOptions(totalResults, resultsPerPage, curPage) {
+  const optionsMarkup = `
+    <!-- results totals container-->
+    <div class="results-total-container">
+      <div class="results-total d-flex align-items-center">
+        <p class="results-total-title me-2 mb-1">Total Results:</p>
+        <p class="results-total-num me-5 mb-0 fw-bold fst-italic">${totalResults}</p>
+        <p class="results-total-page me-2 mb-0">Total Pages:</p>
+        <p class="results-total-page-num me-5 mb-0 fw-bold fst-italic">${Math.ceil(
+          totalResults / resultsPerPage
+        )}</p>
+        <p class="results-total-page me-2 mb-0">Page:</p>
+        <p class="results-total-num mb-0 fw-bold fst-italic">${curPage}</p>
+      </div>
+    </div>
+    <!-- "sort by" -->
+    <div class="sort-title col-5">
+      <p>Sort by:</p>
+    </div>
+    <!-- sort options -->
+    <div class="sort-container col-7 d-flex justify-content-around">
+      <div class="sort-option sort-option-relevancy">
+        <button class="btn-sort sort-btn-published-desc sort-active text-decoration-none bg-transparent border-0" type="button">
+          <p class="fst-italic">Most Recent</p>
+        </a>
+      </div>
+      <div class="sort-option sort-option-publishedat">
+        <button class="btn-sort sort-btn-published-asc text-decoration-none bg-transparent border-0" type="button">
+          <p class="fst-italic">Oldest</p>
+        </a>
+      </div>
+      <div class="sort-option sort-option-popularity">
+        <button class="btn-sort sort-btn-published-popularity text-decoration-none bg-transparent border-0" type="button">
+          <p class="fst-italic">Popularity</p>
+        </a>
+      </div>`;
+
+  resultsOptions.insertAdjacentHTML("afterbegin", optionsMarkup);
+}
+
 // Function: Render Spinner for Search Results
 function renderSpinnerSearchResults() {
   // Clear search results pane
@@ -276,47 +317,6 @@ function renderErrorSearchResults(
 
   // render error message
   searchResults.insertAdjacentHTML("afterbegin", errorMarkup);
-}
-
-// Renders result options container (used for when rendering search results)
-function renderResultsOptions(totalResults, resultsPerPage, curPage) {
-  const optionsMarkup = `
-    <!-- results totals container-->
-    <div class="results-total-container">
-      <div class="results-total d-flex align-items-center">
-        <p class="results-total-title me-2 mb-1">Total Results:</p>
-        <p class="results-total-num me-5 mb-0 fw-bold">${totalResults}</p>
-        <p class="results-total-page me-2 mb-0">Total Pages:</p>
-        <p class="results-total-page-num me-5 mb-0 fw-bold">${Math.ceil(
-          totalResults / resultsPerPage
-        )}</p>
-        <p class="results-total-page me-2 mb-0">Page:</p>
-        <p class="results-total-num mb-0 fw-bold">${curPage}</p>
-      </div>
-    </div>
-    <!-- "sort by" -->
-    <div class="sort-title col-5">
-      <p>Sort by:</p>
-    </div>
-    <!-- sort options -->
-    <div class="sort-container col-7 d-flex justify-content-around">
-      <div class="sort-option sort-option-relevancy">
-        <button class="btn-sort sort-btn-relevancy text-decoration-none bg-transparent border-0" type="button">
-          <p>Relevancy</p>
-        </a>
-      </div>
-      <div class="sort-option sort-option-publishedat">
-        <button class="btn-sort sort-btn-publishedat text-decoration-none bg-transparent border-0" type="button">
-          <p>Date</p>
-        </a>
-      </div>
-      <div class="sort-option sort-option-popularity">
-        <button class="btn-sort sort-btn-popularity text-decoration-none bg-transparent border-0" type="button">
-          <p>Popularity</p>
-        </a>
-      </div>`;
-
-  resultsOptions.insertAdjacentHTML("afterbegin", optionsMarkup);
 }
 
 // Function: Render Pagination based on current page displayed
@@ -409,7 +409,7 @@ function clearSearchResults() {
   }
 }
 
-// This function will be called when search button is clicked or 'enter' keydown pressed
+// This function will be called when search button is clicked or 'enter' keydown pressed, basically covers most of the operations in above functions
 // It includes renderSpinner, loadSearchResults, renderSearchResults, renderErrorSearchResults function etc.
 function showSearchResults() {
   // Get query input and save to searchQuery
@@ -421,7 +421,7 @@ function showSearchResults() {
     return;
   }
 
-  // If input exists, set below to true, so when calling loadSearchResults function, sort option will default to 'popularity'
+  // If input exists, set below to true, so when calling loadSearchResults function, sort option will default to 'published_desc'
   searchBtnClick = true;
 
   // render spinner in search results
@@ -452,6 +452,8 @@ function showSearchResults() {
     });
 }
 
+// ********************************* NEWS PANE RENDER FUNCTIONS
+
 // *********************************
 // Search button event handler, call showSearchResults() upon click
 searchButton.addEventListener("click", showSearchResults);
@@ -463,3 +465,237 @@ document.addEventListener("keydown", function (e) {
     e.preventDefault();
   }
 });
+
+// EVENT LISTENER: Sort by published-desc click
+// NOTE: Vanilla javascript won't work here unless use event.target, jQuery is easier here
+$("body").on("click", ".sort-btn-published-desc", function (e) {
+  console.log("sort by descending date");
+
+  // Save new sortby value to state object
+  state.search.sortBy = "published_desc";
+
+  //  Set below to false, not a search button click, so when loading loadSearchResults function, sort option won't default to 'published_desc'
+  searchBtnClick = false;
+
+  // render spinner in search results
+  renderSpinnerSearchResults();
+
+  // Same as above, Call async LoadSearchResults, after results come back, then render the results, otherwise, wont work!!!
+  // Pass in the search query and page number (default is 1) to save results to state object
+  loadSearchResults(state.search.query, state.search.page)
+    .then((p) => {
+      // p is the returned promise, not sure what it is, but doesn't matter, just need to use then here.
+      // Check statements
+      console.log(state.search.resultsToDisplay);
+
+      // Clear spinner
+      clearSearchResults();
+      // Render search results based on resultsToDisplay in state object, render pagination
+      // Render doesn't need to be async, all data is already local
+      renderSearchResults(state.search);
+
+      // Assign active format class to clicked sort option
+      // if sort desc is NOT active, make it active; If active, don't change anything, watch for (!)
+      if (
+        !document
+          .querySelector(".sort-btn-published-desc")
+          .classList.contains("sort-active")
+      ) {
+        document
+          .querySelector(".sort-btn-published-desc")
+          .classList.add("sort-active");
+      }
+
+      // If sort asc is active, remove the active class; If not, don't change anything
+      if (
+        document
+          .querySelector(".sort-btn-published-asc")
+          .classList.contains("sort-active")
+      ) {
+        document
+          .querySelector(".sort-btn-published-asc")
+          .classList.remove("sort-active");
+      }
+
+      // if sort popularity is active, remove the active class; If not, don't change anything
+      if (
+        document
+          .querySelector(".sort-btn-published-popularity")
+          .classList.contains("sort-active")
+      ) {
+        document
+          .querySelector(".sort-btn-published-popularity")
+          .classList.remove("sort-active");
+      }
+    })
+    .catch((err) => {
+      // Clear spinner
+      clearSearchResults();
+
+      // If search returns error, loadSearResults will return a Promise with an error as its value, that error is caught and error message will be printed
+      console.log(err);
+      renderErrorSearchResults();
+    });
+});
+
+// EVENT LISTENER: Sort by Date click
+$("body").on("click", ".sort-btn-published-asc", function (e) {
+  console.log("sort by ascending date");
+
+  // Save new sortby value to state object
+  state.search.sortBy = "published_asc";
+
+  //  Set below to false, not a search button click, so when loading loadSearchResults function, sort option won't default to 'published_desc'
+  searchBtnClick = false;
+
+  // render spinner in search results
+  renderSpinnerSearchResults();
+
+  // Same as above, Call async LoadSearchResults, after results come back, then render the results, otherwise, wont work!!!
+  // Pass in the search query and page number (default is 1) to save results to state object
+  loadSearchResults(state.search.query, state.search.page)
+    .then((p) => {
+      // p is the returned promise, not sure what it is, but doesn't matter, just need to use then here.
+      // Check statements
+      console.log(state.search.resultsToDisplay);
+
+      // Clear spinner
+      clearSearchResults();
+      // Render search results based on resultsToDisplay in state object, render pagination
+      // Render doesn't need to be async, all data is already local
+      renderSearchResults(state.search);
+
+      // Assign active format class to clicked sort option
+      // if sort desc is active, remove the active class; If not, don't change anything
+      if (
+        document
+          .querySelector(".sort-btn-published-desc")
+          .classList.contains("sort-active")
+      ) {
+        document
+          .querySelector(".sort-btn-published-desc")
+          .classList.remove("sort-active");
+      }
+
+      // If asc is NOT active, make it active; If active, don't change anything,, watch for (!)
+      if (
+        !document
+          .querySelector(".sort-btn-published-asc")
+          .classList.contains("sort-active")
+      ) {
+        document
+          .querySelector(".sort-btn-published-asc")
+          .classList.add("sort-active");
+      }
+
+      // if sort popularity is active, remove the active class; If not, don't change anything
+      if (
+        document
+          .querySelector(".sort-btn-published-popularity")
+          .classList.contains("sort-active")
+      ) {
+        document
+          .querySelector(".sort-btn-published-popularity")
+          .classList.remove("sort-active");
+      }
+    })
+    .catch((err) => {
+      // Clear spinner
+      clearSearchResults();
+
+      // If search returns error, loadSearResults will return a Promise with an error as its value, that error is caught and error message will be printed
+      console.log(err);
+      renderErrorSearchResults();
+    });
+});
+
+// EVENT LISTENER: Sort by Popularity click
+$("body").on("click", ".sort-btn-published-popularity", function (e) {
+  console.log("sort by popularity clicked");
+
+  // Save new sortby value to state object
+  state.search.sortBy = "popularity";
+
+  //  Set below to false, not a search button click, so when loading loadSearchResults function, sort option won't default to 'published_desc'
+  searchBtnClick = false;
+
+  // render spinner in search results
+  renderSpinnerSearchResults();
+
+  // Same as above, Call async LoadSearchResults, after results come back, then render the results, otherwise, wont work!!!
+  // Pass in the search query and page number (default is 1) to save results to state object
+  loadSearchResults(state.search.query, state.search.page)
+    .then((p) => {
+      // p is the returned promise, not sure what it is, but doesn't matter, just need to use then here.
+      // Check statements
+      console.log(state.search.resultsToDisplay);
+
+      // Clear spinner
+      clearSearchResults();
+      // Render search results based on resultsToDisplay in state object, render pagination
+      // Render doesn't need to be async, all data is already local
+      renderSearchResults(state.search);
+
+      // if sort desc is active, remove the active class; If not, don't change anything
+      if (
+        document
+          .querySelector(".sort-btn-published-desc")
+          .classList.contains("sort-active")
+      ) {
+        document
+          .querySelector(".sort-btn-published-desc")
+          .classList.remove("sort-active");
+      }
+
+      // If asc is active, remove the active class; If not, don't change anything
+      if (
+        document
+          .querySelector(".sort-btn-published-asc")
+          .classList.contains("sort-active")
+      ) {
+        document
+          .querySelector(".sort-btn-published-asc")
+          .classList.remove("sort-active");
+      }
+
+      // if sort popularity is NOT active, add the active class; If active, don't change anything,, watch for (!)
+      if (
+        !document
+          .querySelector(".sort-btn-published-popularity")
+          .classList.contains("sort-active")
+      ) {
+        document
+          .querySelector(".sort-btn-published-popularity")
+          .classList.add("sort-active");
+      }
+    })
+    .catch((err) => {
+      // Clear spinner
+      clearSearchResults();
+
+      // If search returns error, loadSearResults will return a Promise with an error as its value, that error is caught and error message will be printed
+      console.log(err);
+      renderErrorSearchResults();
+    });
+});
+
+// BUGS
+// 1. When results return is invalid - especially img, consider replacing img with a custom made local img with logo
+// 2. Sometimes when displaying images (or articles), it moves to the left of the container instead of justifying to the end (right side) WHY??? Height? Width? already set width to 100%...
+// 3. Some result objects would be "REMOVED", how to actually remove those results from my searach results, e.g. below: (note: sometimes author is null, that's fine, maybe use 'content' or 'title' to check for it)
+// {
+// author: null
+// content: "[Removed]"
+// description: "[Removed]"
+// publishedAt: "1970-01-01T00:00:00Z"
+// source: {id: null, name: '[Removed]'}
+// title: "[Removed]"
+// url: "https://removed.com"
+// urlToImage: null
+// }
+// 4. Fade out the last line of search results (3 lines total (?))
+// 5. Fix the format of sort options, add 'active' class to denote the chosen sort option; align the sort options to the right side with margins, to align with the page number on the top line
+// 5m. media query for sort options top line, change it to line by line showing instead of cramming in 1 liner
+
+// Potential Improvements
+// 1. Add languages, search in different languages
