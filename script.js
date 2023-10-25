@@ -89,9 +89,14 @@ const loadSearchResults = async function (
     // sort options: published_desc (default), published_asc, popularity
     // country options; &countries=us,ca
     // language options: &languages=en,-de
+
+    // Calculate Offset Value - Offset value is the index of where the first result to be displayed in all results is located
+    const offsetVal = (pageNum - 1) * state.search.resultsPerPage;
+    console.log(offsetVal);
+
     const response = await Promise.race([
       fetch(
-        `http://api.mediastack.com/v1/news?access_key=${API_KEY}&keywords=${query}&sort=${state.search.sortBy}&languages=en&countries=us,ca`
+        `http://api.mediastack.com/v1/news?access_key=${API_KEY}&keywords=${query}&sort=${state.search.sortBy}&offset=${offsetVal}&limit=${state.search.resultsPerPage}&languages=en&countries=us,ca`
       ),
       timeout(TIMEOUT_SEC),
     ]);
@@ -453,8 +458,49 @@ function showSearchResults() {
 }
 
 // ********************************* NEWS PANE RENDER FUNCTIONS
+// Function: Render error in news pane
+function renderErrorNews(
+  errorMsg = "We could not find that news. Please try another one!"
+) {
+  // Error Msg check
+  console.log(errorMsg);
 
-// *********************************
+  // Generate markup
+  const errorMarkup = `
+    <div class="error error-news">
+      <div>
+        <svg>
+          <use href="img/icons.svg#icon-alert-triangle"></use>
+        </svg>
+      </div>
+      <p>${errorMsg}</p>
+    </div>
+  `;
+
+  // Clear sorting options container and search results & pagination - Not needed, renderSearchResults already cleared it
+
+  // render error message
+  news.insertAdjacentHTML("afterbegin", errorMarkup);
+}
+
+// Function: clear news pane
+function clearNews() {
+  // Clear results and resultsOptions and pagination containers
+  // results.innerHTML = "";
+  // resultsOptions.innerHTML = "";
+  // pagination.innerHTML = "";
+
+  // // If error/spinner exists, remove them
+  // if (document.querySelector(".error-news") !== null) {
+  //   document.querySelector(".error-news").remove();
+  // }
+  // if (document.querySelector(".spinner-news") !== null) {
+  //   document.querySelector(".spinner-news").remove();
+  // }
+  news.innerHTML = "";
+}
+
+// ********************************* Event Handlers
 // Search button event handler, call showSearchResults() upon click
 searchButton.addEventListener("click", showSearchResults);
 
@@ -496,37 +542,19 @@ $("body").on("click", ".sort-btn-published-desc", function (e) {
 
       // Assign active format class to clicked sort option
       // if sort desc is NOT active, make it active; If active, don't change anything, watch for (!)
-      if (
-        !document
-          .querySelector(".sort-btn-published-desc")
-          .classList.contains("sort-active")
-      ) {
-        document
-          .querySelector(".sort-btn-published-desc")
-          .classList.add("sort-active");
-      }
+      document
+        .querySelector(".sort-btn-published-desc")
+        .classList.add("sort-active");
 
       // If sort asc is active, remove the active class; If not, don't change anything
-      if (
-        document
-          .querySelector(".sort-btn-published-asc")
-          .classList.contains("sort-active")
-      ) {
-        document
-          .querySelector(".sort-btn-published-asc")
-          .classList.remove("sort-active");
-      }
+      document
+        .querySelector(".sort-btn-published-asc")
+        .classList.remove("sort-active");
 
       // if sort popularity is active, remove the active class; If not, don't change anything
-      if (
-        document
-          .querySelector(".sort-btn-published-popularity")
-          .classList.contains("sort-active")
-      ) {
-        document
-          .querySelector(".sort-btn-published-popularity")
-          .classList.remove("sort-active");
-      }
+      document
+        .querySelector(".sort-btn-published-popularity")
+        .classList.remove("sort-active");
     })
     .catch((err) => {
       // Clear spinner
@@ -567,37 +595,19 @@ $("body").on("click", ".sort-btn-published-asc", function (e) {
 
       // Assign active format class to clicked sort option
       // if sort desc is active, remove the active class; If not, don't change anything
-      if (
-        document
-          .querySelector(".sort-btn-published-desc")
-          .classList.contains("sort-active")
-      ) {
-        document
-          .querySelector(".sort-btn-published-desc")
-          .classList.remove("sort-active");
-      }
+      document
+        .querySelector(".sort-btn-published-desc")
+        .classList.remove("sort-active");
 
       // If asc is NOT active, make it active; If active, don't change anything,, watch for (!)
-      if (
-        !document
-          .querySelector(".sort-btn-published-asc")
-          .classList.contains("sort-active")
-      ) {
-        document
-          .querySelector(".sort-btn-published-asc")
-          .classList.add("sort-active");
-      }
+      document
+        .querySelector(".sort-btn-published-asc")
+        .classList.add("sort-active");
 
       // if sort popularity is active, remove the active class; If not, don't change anything
-      if (
-        document
-          .querySelector(".sort-btn-published-popularity")
-          .classList.contains("sort-active")
-      ) {
-        document
-          .querySelector(".sort-btn-published-popularity")
-          .classList.remove("sort-active");
-      }
+      document
+        .querySelector(".sort-btn-published-popularity")
+        .classList.remove("sort-active");
     })
     .catch((err) => {
       // Clear spinner
@@ -636,39 +646,20 @@ $("body").on("click", ".sort-btn-published-popularity", function (e) {
       // Render doesn't need to be async, all data is already local
       renderSearchResults(state.search);
 
-      // test
       // if sort desc is active, remove the active class; If not, don't change anything
-      if (
-        document
-          .querySelector(".sort-btn-published-desc")
-          .classList.contains("sort-active")
-      ) {
-        document
-          .querySelector(".sort-btn-published-desc")
-          .classList.remove("sort-active");
-      }
+      document
+        .querySelector(".sort-btn-published-desc")
+        .classList.remove("sort-active");
 
       // If asc is active, remove the active class; If not, don't change anything
-      if (
-        document
-          .querySelector(".sort-btn-published-asc")
-          .classList.contains("sort-active")
-      ) {
-        document
-          .querySelector(".sort-btn-published-asc")
-          .classList.remove("sort-active");
-      }
+      document
+        .querySelector(".sort-btn-published-asc")
+        .classList.remove("sort-active");
 
       // if sort popularity is NOT active, add the active class; If active, don't change anything,, watch for (!)
-      if (
-        !document
-          .querySelector(".sort-btn-published-popularity")
-          .classList.contains("sort-active")
-      ) {
-        document
-          .querySelector(".sort-btn-published-popularity")
-          .classList.add("sort-active");
-      }
+      document
+        .querySelector(".sort-btn-published-popularity")
+        .classList.add("sort-active");
     })
     .catch((err) => {
       // Clear spinner
@@ -678,6 +669,191 @@ $("body").on("click", ".sort-btn-published-popularity", function (e) {
       console.log(err);
       renderErrorSearchResults();
     });
+});
+
+// Event Listener: Pagination Controls - have to use jQuery as button doesn't exist upon initial loading of page
+$("body").on("click", ".pagination", function (e) {
+  //Event Delegation: Select the closest parent element that's of 'btn-inline' class
+  //Because there's <span> and ion-icon elements inside the button element, want to make sure every time the button element itself is returned(selected)
+  const btn = e.target.closest(".btn--inline");
+
+  //Guard clause for if no btn found (if white space within pagination element clicked), do nothing
+  //Without guard clause, error would occur
+  if (!btn) return;
+
+  //Retrieve the value of data attribute 'data-goto' in the HTML code for the button element
+  //'goToPage' is the value of the page that app should go to
+  //convert the value to integer
+  const goToPage = +btn.dataset.goto;
+  console.log(goToPage);
+
+  //Render new results and render new page
+
+  //  Set below to false, not a search button click, so when loading loadSearchResults function, sort option won't default to 'popularity'
+  searchBtnClick = false;
+
+  // render spinner in search results
+  renderSpinnerSearchResults();
+
+  // Same as above, Call async LoadSearchResults, after results come back, then render the results, otherwise, wont work!!!
+  // Pass in the search query and page number to save results to state object
+  loadSearchResults(state.search.query, goToPage)
+    .then((p) => {
+      // p is the returned promise, not sure what it is, but doesn't matter, just need to use then here.
+      // Check statements
+      console.log(state.search.resultsToDisplay);
+
+      // Clear spinner
+      clearSearchResults();
+      // Render search results based on resultsToDisplay in state object, render pagination
+      // Render doesn't need to be async, all data is already local
+      renderSearchResults(state.search);
+    })
+    .catch((err) => {
+      // Clear spinner
+      clearSearchResults();
+
+      // If search returns error, loadSearResults will return a Promise with an error as its value, that error is caught and error message will be printed
+      console.log(err);
+      renderErrorSearchResults();
+    });
+});
+
+// Event handler - Clicking on search results (event delegation)
+$("body").on("click", ".results", function (e) {
+  // Step 1: Locate the clicked element (news) from the resultsToDisplay array using data-index property of the preview element
+  // Event Delegation: Select the closest parent element that's of 'preview' class and assign to the 'previewToDisplay" element (newly created)
+  const previewToDisplay = e.target.closest(".preview");
+
+  //Guard clause for if no previewToDisplay found, do nothing (for now, impossible)
+  //Without guard clause, error would occur
+  if (!previewToDisplay) return;
+
+  // Find the dataset index property of the previewToDisplay result, set it to 'resultToDisplayIndex'
+  const resultToDisplayIndex = previewToDisplay.dataset.index;
+
+  // Check resultsToDisplay index and the corresponding news result
+  console.log(resultToDisplayIndex);
+  // console.log(state.search.resultsToDisplay[resultToDisplayIndex]);
+
+  // Save news to display to variable
+  const newsToDisplay = state.search.resultsToDisplay[resultToDisplayIndex];
+  console.log(newsToDisplay);
+
+  // Step 2: Render the clicked result to news pane
+  // Clear current news pane
+  clearNews();
+
+  // If news result is NOT valid
+  if (
+    newsToDisplay.title == "[Removed]" &&
+    newsToDisplay.content == "[Removed]" &&
+    newsToDisplay.url == "https://removed.com"
+  ) {
+    // render spinner in news pane
+    // renderSpinnerNews();
+
+    // Clear spinner in news pane
+    // clearNews();
+
+    // If news result not valid, render error
+    renderErrorNews();
+  }
+  // If news result is valid
+  else {
+    // render spinner in news pane
+    // renderSpinnerNews();
+
+    // Clear spinner in news pane
+    // clearNews();
+
+    // render clicked news article
+    const markup = `
+        <!-- news header -->
+        <div class="news-header d-flex flex-column px-5 pt-5 pb-4">
+          <!-- source -->
+          <div class="news-source-container">
+            <p
+              class="news-source fs-5 fw-bold align-middle mb-1 text-uppercase"
+            >
+              ${newsToDisplay.source}
+            </p>
+          </div>
+          <!-- title -->
+          <div class="news-title-container">
+            <h2 class="news-title fs-1 fw-bold">
+              ${newsToDisplay.title}
+            </h2>
+          </div>
+          <!-- news author and publish time -->
+          <div class="d-flex news-info-container">
+            <!-- author -->
+            <div class="news-author-container d-flex fs-5 pe-4">
+              <span>By&nbsp;</span>
+              <p class="news-author fst-italic">${newsToDisplay.author}</p>
+            </div>
+            <!-- publish time -->
+            <div class="news-pub-time-container d-flex fs-5">
+              <span>Updated&nbsp;</span>
+              <p class="news-pub-time fst-italic">${newsToDisplay.published_at.substring(
+                0,
+                4
+              )}-${newsToDisplay.published_at.substring(
+      5,
+      7
+    )}-${newsToDisplay.published_at.substring(
+      8,
+      10
+    )}&nbsp;${newsToDisplay.published_at.substring(11, 19)}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- news img -->
+        <div class="news-img-container px-5">
+          <img
+            class="news-img"
+            src="${newsToDisplay.image}"
+          />
+        </div>
+
+        <!-- news description -->
+        <div class="news-description-container px-5 pt-5 pb-4">
+          <h4 class="news-description">
+           ${newsToDisplay.description}
+          </h4>
+        </div>
+
+        <!-- news source and bookmark button -->
+        <div
+          class="news-action-container px-5 pt-1 d-flex justify-content-between align-items-center"
+        >
+          <a
+            class="news-source-btn-link text-decoration-none me-3"
+            href="${newsToDisplay.url}" target="_blank"
+          >
+            <button class="btn news-source-btn ms-1" type="button">
+              <!-- <svg class="search__icon">
+              <use href="img/icons.svg#icon-search"></use>
+            </svg> -->
+              <span>See Full Article</span>
+            </button>
+          </a>
+          <a class="news-source-btn-bookmark text-decoration-none me-5" href="">
+            <button class="btn--round" type="button">
+              <svg class="">
+                <use href="img/icons.svg#icon-bookmark-fill"></use>
+              </svg>
+            </button>
+          </a>
+        </div>
+        `;
+
+    // insert to news pane
+    news.insertAdjacentHTML("afterbegin", markup);
+  }
+
+  e.preventDefault();
 });
 
 // BUGS
@@ -697,6 +873,7 @@ $("body").on("click", ".sort-btn-published-popularity", function (e) {
 // 4. Fade out the last line of search results (3 lines total (?))
 // 5. Fix the format of sort options, add 'active' class to denote the chosen sort option; align the sort options to the right side with margins, to align with the page number on the top line
 // 5m. media query for sort options top line, change it to line by line showing instead of cramming in 1 liner
+// 6. Pagination: needs to fix when clicking on different sort option, pagination should start from page 1 again, also check if pagination is working correctly
 
 // Potential Improvements
 // 1. Add languages, search in different languages

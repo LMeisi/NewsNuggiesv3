@@ -1,0 +1,21 @@
+*****************************
+HTTP GET Request Parameters:
+
+Object 	Description
+
+access_key 	[Required] Use this parameter to specify your unique API access key, which is shown when you log in to your account dashboard.
+sources 	[Optional] Use this parameter to include or exclude one or multiple comma-separated news sources. Example: To include CNN, but exclude BBC: &sources=cnn,-bbc
+categories 	[Optional] Use this parameter to include or exclude one or multiple comma-separated news categories. Example: To include business, but exclude sports: &sources=business,-sports.
+
+Available categories: View all supported categories
+countries 	[Optional] Use this parameter to include or exclude one or multiple comma-separated countries. Example: To include Australia, but exclude the US: &sources=au,-us.
+
+Available countries: See all supported countries
+languages 	[Optional] Use this parameter to include or exclude one or multiple comma-separated languages. Example: To include English, but exclude German: &sources=en,-de.
+
+Available languages: View all supported languages
+keywords 	[Optional] Use this parameter to seach for sentences, you can also exclude words that you do not want to appear in your search results. Example: To search for "New movies 2021" but exclude "Matrix": &sources=new movies 2021 -matrix
+date 	[Optional] Use this parameter to specify a date or date range. Example: &date=2020-01-01 for news on Jan 1st and &date=2020-12-24,2020-12-31 for news between Dec 24th and 31st.
+sort 	[Optional] Use this parameter to specify a sorting order. Available values: published_desc (default), published_asc, popularity
+limit 	[Optional] Use this parameter to specify a pagination limit (number of results per page) for your API request. Default limit value is 25, maximum allowed limit value is 100.
+offset 	[Optional] Use this parameter to specify a pagination offset value for your API request. Example: An offset value of 100 combined with a limit value of 10 would show results 100-110. Default value is 0, starting with the first available result. 
