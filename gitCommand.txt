@@ -58,6 +58,12 @@
 -set up in github repository to publish on github pages
 
 
+************ If git remote has changes that local repo doesn't have, you have to pull before you push to remote, if you want to force push, do below:
+
+    git push -f origin master
+    
+
+
 **********Command logs below
 
 PS C:\Users\soari\Documents\Web Development\Landing Pages\News App> git init
