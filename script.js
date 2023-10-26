@@ -180,31 +180,45 @@ function renderSearchResults(data) {
       // Fit the format so moment.js could be used
       const resultPubTime = result.published_at.substring(0, 19) + "Z";
 
-      // return generated markup
+      // Create two different markups with Image either available or not available, then use those variables in below generated markup in the ternary operation (?)
+      const markupWithImage = `
+      <!-- Col containing source and title - flexbox -->
+      <div class="preview-data col-8 d-flex flex-column">
+        <p class="preview__publisher">${result.source}</p>
+        <h4 class="preview__title">
+          ${result.title}
+        </h4>
+      </div>
+      <!-- Col containing url img -->
+      <div
+        class="preview-fig-container col-4 d-flex justify-content-end"
+      >
+        <figure class="preview__fig">
+          <img
+            src="${result.image}"
+            alt="newsImg"
+          />
+        </figure>
+      </div>`;
+
+      const markupWithoutImage = `
+      <!-- Col containing source and title - flexbox -->
+      <div class="preview-data col-12 d-flex flex-column">
+        <p class="preview__publisher">${result.source}</p>
+        <h4 class="preview__title">
+          ${result.title}
+        </h4>
+      </div>
+      `;
+
+      // return generated markup, note the ternary operation based on image availability
       return `<li class="preview" data-index="${index}">
               <a class="preview__link" href="">
                 <!-- Flexbox Vertical -->
                 <div class="preview-container d-flex flex-column">
                   <!-- Top grid -->
                   <div class="preview-info row">
-                    <!-- Col containing source and title - flexbox -->
-                    <div class="preview-data col-8 d-flex flex-column">
-                      <p class="preview__publisher">${result.source}</p>
-                      <h4 class="preview__title">
-                        ${result.title}
-                      </h4>
-                    </div>
-                    <!-- Col containing url img -->
-                    <div
-                      class="preview-fig-container col-4 d-flex justify-content-end"
-                    >
-                      <figure class="preview__fig">
-                        <img
-                          src="${result.image}"
-                          alt="newsImg"
-                        />
-                      </figure>
-                    </div>
+                    ${result.image ? markupWithImage : markupWithoutImage}
                   </div>
                   <!-- Bottom grid -->
                   <div class="preview-support-info row align-items-center">

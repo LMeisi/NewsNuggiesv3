@@ -490,7 +490,7 @@ body {
   /* text-transform: uppercase; */
   max-height: 5rem;
   text-overflow: ellipsis;
-  max-width: 25rem;
+  /* max-width: 25rem; */
   /* white-space: nowrap; */
   grid-column: 1 / -1;
   font-size: 1.45rem;
@@ -506,6 +506,10 @@ body {
 }
 
 /* ***NEWLY ADDED */
+.preview-container {
+  width: 100%;
+}
+
 .preview-pub-time {
   margin-bottom: 0;
 }
