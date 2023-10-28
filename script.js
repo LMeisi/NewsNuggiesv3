@@ -51,7 +51,7 @@ function getQuery() {
   state.search.query = inputQuery;
 
   // Clear input value
-  clearInput();
+  // clearInput();
 
   return inputQuery;
 }
@@ -67,7 +67,7 @@ const loadSearchResults = async function (
   pageNum = state.search.page
 ) {
   try {
-    // Check if it's search button click, if so, assign 'published_desc' to search results; Otherwise, do nothing.
+    // Check if it's search button click, if so, assign 'published_desc' to search results; Otherwise (if clicking on sort options), do nothing.
     if (searchBtnClick) {
       state.search.sortBy = "published_desc";
     }
@@ -443,6 +443,9 @@ function showSearchResults() {
   // If input exists, set below to true, so when calling loadSearchResults function, sort option will default to 'published_desc'
   searchBtnClick = true;
 
+  // Clear news pane
+  clearNews();
+
   // render spinner in search results
   renderSpinnerSearchResults();
 
@@ -515,6 +518,12 @@ function clearNews() {
 }
 
 // ********************************* Event Handlers
+
+// On page load, clear input field
+window.addEventListener("load", (e) => {
+  clearInput();
+});
+
 // Search button event handler, call showSearchResults() upon click
 searchButton.addEventListener("click", showSearchResults);
 
@@ -760,9 +769,9 @@ $("body").on("click", ".results", function (e) {
 
   // If news result is NOT valid
   if (
-    newsToDisplay.title == "[Removed]" &&
-    newsToDisplay.content == "[Removed]" &&
-    newsToDisplay.url == "https://removed.com"
+    !newsToDisplay.title &&
+    !newsToDisplay.description &&
+    !newsToDisplay.url
   ) {
     // render spinner in news pane
     // renderSpinnerNews();
@@ -784,19 +793,27 @@ $("body").on("click", ".results", function (e) {
     // render clicked news article
     const markup = `
         <!-- news header -->
-        <div class="news-header d-flex flex-column px-5 pt-5 pb-4">
+        <div class="news-header d-flex flex-column px-5 pt-5 pb-2">
           <!-- source -->
           <div class="news-source-container">
             <p
               class="news-source fs-5 fw-bold align-middle mb-1 text-uppercase"
             >
-              ${newsToDisplay.source}
+              ${
+                newsToDisplay.source
+                  ? newsToDisplay.source
+                  : "Unspecified Source"
+              }
             </p>
           </div>
           <!-- title -->
           <div class="news-title-container">
             <h2 class="news-title fs-1 fw-bold">
-              ${newsToDisplay.title}
+              ${
+                newsToDisplay.title
+                  ? newsToDisplay.title
+                  : "Unspecified News Title"
+              }
             </h2>
           </div>
           <!-- news author and publish time -->
@@ -804,21 +821,32 @@ $("body").on("click", ".results", function (e) {
             <!-- author -->
             <div class="news-author-container d-flex fs-5 pe-4">
               <span>By&nbsp;</span>
-              <p class="news-author fst-italic">${newsToDisplay.author}</p>
+              <p class="news-author fst-italic">${
+                newsToDisplay.author
+                  ? newsToDisplay.author
+                  : "Unspecified author"
+              }</p>
             </div>
             <!-- publish time -->
             <div class="news-pub-time-container d-flex fs-5">
               <span>Updated&nbsp;</span>
-              <p class="news-pub-time fst-italic">${newsToDisplay.published_at.substring(
-                0,
-                4
-              )}-${newsToDisplay.published_at.substring(
-      5,
-      7
-    )}-${newsToDisplay.published_at.substring(
-      8,
-      10
-    )}&nbsp;${newsToDisplay.published_at.substring(11, 19)}</p>
+              <p class="news-pub-time fst-italic">${
+                newsToDisplay.published_at
+                  ? newsToDisplay.published_at.substring(0, 4)
+                  : "--"
+              }-${
+      newsToDisplay.published_at
+        ? newsToDisplay.published_at.substring(5, 7)
+        : "-"
+    }-${
+      newsToDisplay.published_at
+        ? newsToDisplay.published_at.substring(8, 10)
+        : "-"
+    }&nbsp;${
+      newsToDisplay.published_at
+        ? newsToDisplay.published_at.substring(11, 19)
+        : ""
+    }</p>
             </div>
           </div>
         </div>
@@ -826,13 +854,16 @@ $("body").on("click", ".results", function (e) {
         <!-- news img -->
         <div class="news-img-container px-5">
           <img
-            class="news-img"
-            src="${newsToDisplay.image}"
+            class="news-img" ${
+              newsToDisplay.image
+                ? "src=" + newsToDisplay.image
+                : "src='' style='display:none'"
+            }
           />
         </div>
 
         <!-- news description -->
-        <div class="news-description-container px-5 pt-5 pb-4">
+        <div class="news-description-container px-5 pt-4 pb-4">
           <h4 class="news-description">
            ${newsToDisplay.description}
           </h4>
@@ -871,23 +902,18 @@ $("body").on("click", ".results", function (e) {
 });
 
 // BUGS
-// 1. When results return is invalid - especially img, consider replacing img with a custom made local img with logo
-// 2. Sometimes when displaying images (or articles), it moves to the left of the container instead of justifying to the end (right side) WHY??? Height? Width? already set width to 100%...
-// 3. Some result objects would be "REMOVED", how to actually remove those results from my searach results, e.g. below: (note: sometimes author is null, that's fine, maybe use 'content' or 'title' to check for it)
-// {
-// author: null
-// content: "[Removed]"
-// description: "[Removed]"
-// publishedAt: "1970-01-01T00:00:00Z"
-// source: {id: null, name: '[Removed]'}
-// title: "[Removed]"
-// url: "https://removed.com"
-// urlToImage: null
-// }
+// 1. *FIXED NO NEED When results return is invalid - especially img, consider replacing img with a custom made local img with logo
+// 2. *FIXED Sometimes when displaying images (or articles), it moves to the left of the container instead of justifying to the end (right side) WHY??? Height? Width? already set width to 100%...
+// 3. *FIXED Some result objects would be "REMOVED", how to actually remove those results from my searach results, e.g. below: (note: sometimes author is null, that's fine, maybe use 'content' or 'title' to check for it)
+// 3m. Change the padding of the description to be a bit less than now (change manually in css, bootstrap is a bit too much)
 // 4. Fade out the last line of search results (3 lines total (?))
-// 5. Fix the format of sort options, add 'active' class to denote the chosen sort option; align the sort options to the right side with margins, to align with the page number on the top line
+// 5. *FIXED Fix the format of sort options, add 'active' class to denote the chosen sort option; align the sort options to the right side with margins, to align with the page number on the top line
 // 5m. media query for sort options top line, change it to line by line showing instead of cramming in 1 liner
 // 6. Pagination: needs to fix when clicking on different sort option, pagination should start from page 1 again, also check if pagination is working correctly
+// 7. *FIXED Keep the search term there after search button press
+// 8. *FIXED When alredy have content in news pane, and search button is clicked again, the news pane should clear content, now it keeps the old content as new search results load
+// 9. Add error checking for error 403, notifying user to switch browser to firefox, or mobile device for function to work
+// 10. when on oldest and popularity options and clicking on pagination, format goes back to Most recent focus (what about results?)
 
 // Potential Improvements
 // 1. Add languages, search in different languages
