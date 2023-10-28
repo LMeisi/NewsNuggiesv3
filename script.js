@@ -161,7 +161,7 @@ const loadSearchResults = async function (
 // Function: Render Search Results ('data' argument passed in is state.search)
 function renderSearchResults(data) {
   // Clear results, resultOptions, pagination, also: error/spinner if available
-  clearSearchResults();
+  // clearSearchResults();
 
   // ***START HERE:Check again to see if works
   // Guard Clause, if returned results are empty (no results returned), render error
@@ -248,14 +248,16 @@ function renderSearchResults(data) {
   // render results
   results.insertAdjacentHTML("afterbegin", resultsMarkup);
 
+  // Do not call it here, call it inside Search btn handler (showSearchResults()) and sort option btn click handlers, so pagination btn click won't render the sort option again
   // render results options container
-  renderResultsOptions(data.totalResults, data.resultsPerPage, data.page);
+  // renderResultsOptions(data.totalResults, data.resultsPerPage, data.page);
 
   // Render Pagination, pass in current page number (state.search.page)
   renderPagination(data.totalResults, data.resultsPerPage, data.page);
 }
 
 // Renders result options container (used for when rendering search results)
+// Sort active defaulted to sort_desc
 function renderResultsOptions(totalResults, resultsPerPage, curPage) {
   const optionsMarkup = `
     <!-- results totals container-->
@@ -267,8 +269,8 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
         <p class="results-total-page-num me-5 mb-0 fw-bold fst-italic">${Math.ceil(
           totalResults / resultsPerPage
         )}</p>
-        <p class="results-total-page me-2 mb-0">Page:</p>
-        <p class="results-total-num mb-0 fw-bold fst-italic">${curPage}</p>
+        <p class="results-page me-2 mb-0">Page:</p>
+        <p class="results-page-num mb-0 fw-bold fst-italic">${curPage}</p>
       </div>
     </div>
     <!-- "sort by" -->
@@ -310,6 +312,23 @@ function renderSpinnerSearchResults() {
 
   // render spinner
   searchResults.insertAdjacentHTML("afterbegin", markup);
+}
+
+// Function: Render Spinner for Search Results for Pagination only
+// Do not delete the sort options element, append spinner inside 'results' element
+function renderSpinnerSearchResultsForPagination() {
+  // Clear search results pane
+  clearSearchResultsKeepSortOptions();
+
+  const markup = `
+      <div class="spinner spinner-search">
+        <svg>
+          <use href="img/icons.svg#icon-loader"></use>
+        </svg>
+      </div>`;
+
+  // render spinner
+  results.insertAdjacentHTML("afterbegin", markup);
 }
 
 // Function: Render Error messages for search results
@@ -428,6 +447,23 @@ function clearSearchResults() {
   }
 }
 
+// Function: Clear Search results: results, resultOptions, pagination, also: error/spinner if available EXCEPT SORT OPTIONS
+// Used by Pagination button click only
+function clearSearchResultsKeepSortOptions() {
+  // Clear results and resultsOptions and pagination containers
+  results.innerHTML = "";
+  // resultsOptions.innerHTML = "";
+  pagination.innerHTML = "";
+
+  // If error/spinner exists, remove them
+  if (document.querySelector(".error-search") !== null) {
+    document.querySelector(".error-search").remove();
+  }
+  if (document.querySelector(".spinner-search") !== null) {
+    document.querySelector(".spinner-search").remove();
+  }
+}
+
 // This function will be called when search button is clicked or 'enter' keydown pressed, basically covers most of the operations in above functions
 // It includes renderSpinner, loadSearchResults, renderSearchResults, renderErrorSearchResults function etc.
 function showSearchResults() {
@@ -463,6 +499,13 @@ function showSearchResults() {
       // Render search results based on resultsToDisplay in state object, render pagination
       // Render doesn't need to be async, all data is already local
       renderSearchResults(state.search);
+
+      // render results options container
+      renderResultsOptions(
+        state.search.totalResults,
+        state.search.resultsPerPage,
+        state.search.page
+      );
     })
     .catch((err) => {
       // Clear spinner
@@ -543,6 +586,9 @@ $("body").on("click", ".sort-btn-published-desc", function (e) {
   // Save new sortby value to state object
   state.search.sortBy = "published_desc";
 
+  //  Reset search page to 1 on click, display from beginning
+  state.search.page = 1;
+
   //  Set below to false, not a search button click, so when loading loadSearchResults function, sort option won't default to 'published_desc'
   searchBtnClick = false;
 
@@ -562,6 +608,13 @@ $("body").on("click", ".sort-btn-published-desc", function (e) {
       // Render search results based on resultsToDisplay in state object, render pagination
       // Render doesn't need to be async, all data is already local
       renderSearchResults(state.search);
+
+      // render results options container
+      renderResultsOptions(
+        state.search.totalResults,
+        state.search.resultsPerPage,
+        state.search.page
+      );
 
       // Assign active format class to clicked sort option
       // if sort desc is NOT active, make it active; If active, don't change anything, watch for (!)
@@ -596,6 +649,9 @@ $("body").on("click", ".sort-btn-published-asc", function (e) {
   // Save new sortby value to state object
   state.search.sortBy = "published_asc";
 
+  //  Reset search page to 1 on click, display from beginning
+  state.search.page = 1;
+
   //  Set below to false, not a search button click, so when loading loadSearchResults function, sort option won't default to 'published_desc'
   searchBtnClick = false;
 
@@ -615,6 +671,13 @@ $("body").on("click", ".sort-btn-published-asc", function (e) {
       // Render search results based on resultsToDisplay in state object, render pagination
       // Render doesn't need to be async, all data is already local
       renderSearchResults(state.search);
+
+      // render results options container
+      renderResultsOptions(
+        state.search.totalResults,
+        state.search.resultsPerPage,
+        state.search.page
+      );
 
       // Assign active format class to clicked sort option
       // if sort desc is active, remove the active class; If not, don't change anything
@@ -649,6 +712,9 @@ $("body").on("click", ".sort-btn-published-popularity", function (e) {
   // Save new sortby value to state object
   state.search.sortBy = "popularity";
 
+  //  Reset search page to 1 on click, display from beginning
+  state.search.page = 1;
+
   //  Set below to false, not a search button click, so when loading loadSearchResults function, sort option won't default to 'published_desc'
   searchBtnClick = false;
 
@@ -668,6 +734,13 @@ $("body").on("click", ".sort-btn-published-popularity", function (e) {
       // Render search results based on resultsToDisplay in state object, render pagination
       // Render doesn't need to be async, all data is already local
       renderSearchResults(state.search);
+
+      // render results options container
+      renderResultsOptions(
+        state.search.totalResults,
+        state.search.resultsPerPage,
+        state.search.page
+      );
 
       // if sort desc is active, remove the active class; If not, don't change anything
       document
@@ -715,8 +788,8 @@ $("body").on("click", ".pagination", function (e) {
   //  Set below to false, not a search button click, so when loading loadSearchResults function, sort option won't default to 'popularity'
   searchBtnClick = false;
 
-  // render spinner in search results
-  renderSpinnerSearchResults();
+  // render spinner in search results, DO NOT CLEAR sort options
+  renderSpinnerSearchResultsForPagination();
 
   // Same as above, Call async LoadSearchResults, after results come back, then render the results, otherwise, wont work!!!
   // Pass in the search query and page number to save results to state object
@@ -726,8 +799,23 @@ $("body").on("click", ".pagination", function (e) {
       // Check statements
       console.log(state.search.resultsToDisplay);
 
-      // Clear spinner
-      clearSearchResults();
+      // Set current page in state to the new page number
+      state.search.page = goToPage;
+
+      // Clear spinner, DO NOT CLEAR SORT OPTIONS
+      // clearSearchResults();  // DO NOT USE THIS ONE as this one clears sort options
+      clearSearchResultsKeepSortOptions();
+
+      // Update current page number (only change inside options)
+      // Remove current one, and replace with updated one
+      $(".results-page-num").remove();
+      // Add updated page number
+      const pageNumMarkUp = `<p class="results-page-num mb-0 fw-bold fst-italic">${state.search.page}</p>`;
+
+      document
+        .querySelector(".results-total")
+        .insertAdjacentHTML("beforeend", pageNumMarkUp);
+
       // Render search results based on resultsToDisplay in state object, render pagination
       // Render doesn't need to be async, all data is already local
       renderSearchResults(state.search);
@@ -909,11 +997,14 @@ $("body").on("click", ".results", function (e) {
 // 4. Fade out the last line of search results (3 lines total (?))
 // 5. *FIXED Fix the format of sort options, add 'active' class to denote the chosen sort option; align the sort options to the right side with margins, to align with the page number on the top line
 // 5m. media query for sort options top line, change it to line by line showing instead of cramming in 1 liner
-// 6. Pagination: needs to fix when clicking on different sort option, pagination should start from page 1 again, also check if pagination is working correctly
+// 6. *FIXED Pagination: needs to fix when clicking on different sort option, pagination should start from page 1 again, also check if pagination is working correctly
+//    Solved: for pagination, when clearing results, do not clear the options, leave it there; BUT update the current page (remove current, replace with updated page number)
 // 7. *FIXED Keep the search term there after search button press
 // 8. *FIXED When alredy have content in news pane, and search button is clicked again, the news pane should clear content, now it keeps the old content as new search results load
 // 9. Add error checking for error 403, notifying user to switch browser to firefox, or mobile device for function to work
-// 10. when on oldest and popularity options and clicking on pagination, format goes back to Most recent focus (what about results?)
+// 10.*FIXED when on oldest and popularity options and clicking on pagination, format goes back to Most recent focus (what about results?)
+// 11. Consider clearing news pane when new sort options clicked? (on pagination it's ok to keep the pane i think)
+// 12. Bookmark?
 
 // Potential Improvements
 // 1. Add languages, search in different languages
