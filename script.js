@@ -19,6 +19,7 @@ const results = document.querySelector(".results"); // Search results
 const resultsOptions = document.querySelector(".results-options"); // sorting options container
 const pagination = document.querySelector(".pagination"); // pagination container
 const news = document.querySelector(".news"); // news pane
+const bookmarksList = document.querySelector(".bookmarks__list"); // bookmarks container
 // const errorSearch = document.querySelector(".error-search");
 // const spinnerSearch = document.querySelector(".spinner-search");
 
@@ -38,7 +39,8 @@ const state = {
     resultsPerPage: RES_PER_PAGE, // 'resultsPerPage' is how many results we want shown on one page of search results, get it from config.js (RES_PER_PAGE)
     sortBy: "published_desc", // By default, set search results to sort by publishing date in decending order (from latest)
   },
-  bookmarks: [], // When bookmark btn clicked, will save news to this array, save to localStorage; when page reloads, localstorage will be retrieved
+  bookmarks: [], // On every page load/reload, bookmarks will be retrieved from local storage and saved to this array
+  // When bookmark btn clicked, will save news to this array, save to localStorage; when page reloads, localstorage will be retrieved
   // NOTE: The bookmarked objects retrieved from local storage is NOT the same as the objects in the resultsToDisplay, the ONLY difference is the objects in the bookmarks contains the 'bookmarked' property, set to true;
   // NOTE: However, if you display an object from resultsToDisplay, and save it to state.news, then bookmark that object, that object will have the 'bookmarked' property added and set to true
   // NOTE: So whether the object is bookmarked in the current page load or the object was bookmarked in previous page load and is retrieved back from local storage has to be treated differently
@@ -166,7 +168,6 @@ function renderSearchResults(data) {
   // Clear results, resultOptions, pagination, also: error/spinner if available
   // clearSearchResults();
 
-  // ***START HERE:Check again to see if works
   // Guard Clause, if returned results are empty (no results returned), render error
   if (data.resultsToDisplay.length == 0) {
     renderErrorSearchResults();
@@ -183,7 +184,7 @@ function renderSearchResults(data) {
       // Fit the format so moment.js could be used
       const resultPubTime = result.published_at.substring(0, 19) + "Z";
 
-      // Create two different markups with Image either available or not available, then use those variables in below generated markup in the ternary operation (?)
+      // Create two different markups with Image either available or not available, then use those variables in below generated markup in the ternary operation
       const markupWithImage = `
       <!-- Col containing source and title - flexbox -->
       <div class="preview-data col-8 d-flex flex-column">
@@ -563,7 +564,7 @@ function clearNews() {
   news.innerHTML = "";
 }
 
-// ************************************ Bookmark related functions
+// ************************************ Bookmark Pane related functions
 
 // Check if chosen news object is already in the bookmark array
 // Although bookmark array will load past results on page reload, when you reload page and perform a new search, the results array objects will be used to fetch and the chosen result will be selected from the results array (not the bookmarks array)
@@ -575,6 +576,121 @@ function checkIfNewsIsBookmarked(bookmarkArr, news) {
   return bookmarkArr.some(
     (bookmarkedNews) => bookmarkedNews.description === news.description
   );
+}
+
+// Function: Used to clear all bookmarks (including message)
+function clearBookmarks() {
+  // Set element innerHTML to "";
+  bookmarksList.innerHTML = "";
+}
+
+// Function: Used to render empty bookmark message
+function renderEmptyBookmarkMessage() {
+  // Clear current displays of bookmarks
+  clearBookmarks();
+  // Create empty message markup
+  const markUp = `
+    <div class="message">
+      <div>
+        <svg>
+          <use href="img/icons.svg#icon-smile"></use>
+        </svg>
+      </div>
+      <p>No bookmarks yet.</p>
+    </div>`;
+
+  // Insert in appropriate places
+  bookmarksList.insertAdjacentHTML("afterbegin", markUp);
+}
+
+// Function: Render bookmarks in the bookmark nav tab
+function renderBookmarks(bookmarksArray) {
+  // 0. Clear bookmarks nav item(?) if so, call clearBookmarks() function
+  clearBookmarks();
+  // 1. Guard clause: Check if bookmarks array is empty, if so, display 'empty...' message (call renderEmptyBookmarkMessage function)
+  if (bookmarksArray.length == 0) {
+    renderEmptyBookmarkMessage();
+  }
+
+  // 2. Use map method to return generated markup, note the ternary operation based on image availability, also note the time to be displayed should be article publishing time
+  // 2a. Create two different markups with Image either available or not available, then use those variables in below generated markup in the ternary operation
+  const bookmarksMarkup = bookmarksArray
+    .map((bookmark, bookmarkIndex) => {
+      // Create two different markups with Image either available or not available, then use those variables in below generated markup in the ternary operation
+      const markupWithImage = `
+    <!-- Col containing source and title - flexbox -->
+    <div class="preview-data col-8 d-flex flex-column">
+      <p class="preview__publisher">${bookmark.source}</p>
+      <h4 class="preview__title">
+        ${bookmark.title}
+      </h4>
+    </div>
+    <!-- Col containing url img -->
+    <div
+      class="preview-fig-container col-4 d-flex justify-content-end"
+    >
+      <figure class="preview__fig">
+        <img
+          src="${bookmark.image}"
+          alt="newsImg"
+        />
+      </figure>
+    </div>`;
+
+      const markupWithoutImage = `
+    <!-- Col containing source and title - flexbox -->
+    <div class="preview-data col-12 d-flex flex-column">
+      <p class="preview__publisher">${bookmark.source}</p>
+      <h4 class="preview__title">
+        ${bookmark.title}
+      </h4>
+    </div>
+    `;
+
+      // return generated markup, note the ternary operation based on image availability
+      return `<li class="preview preview-bookmark" data-bkindex="${bookmarkIndex}">
+            <a class="preview__link" href="">
+              <!-- Flexbox Vertical -->
+              <div class="preview-container d-flex flex-column">
+                <!-- Top grid -->
+                <div class="preview-info row">
+                  ${bookmark.image ? markupWithImage : markupWithoutImage}
+                </div>
+                <!-- Bottom grid -->
+                <div class="preview-support-info row align-items-center">
+                  <!-- Published time from now -->
+                  <div class="preview-pub-time-container col-8">
+                    <p class="preview-pub-time">Published:&nbsp;<em>${
+                      bookmark.published_at
+                        ? bookmark.published_at.substring(0, 4)
+                        : "--"
+                    }-${
+        bookmark.published_at ? bookmark.published_at.substring(5, 7) : "-"
+      }-${
+        bookmark.published_at ? bookmark.published_at.substring(8, 10) : "-"
+      }&nbsp;${
+        bookmark.published_at ? bookmark.published_at.substring(11, 19) : ""
+      }</em></p>
+                  </div>
+                  <!-- Bookmark? -->
+                  <div
+                    class="preview-bookmark-container col-4 d-flex justify-content-end"
+                  >
+                    <button class="btn--round btn-round-preview" type="button">
+                      <svg class="">
+                        <use href="img/icons.svg#icon-bookmark"></use>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </li>`;
+    })
+    .join("");
+
+  // 2b. return the joined markup and insertHTML into bookmark nav item
+  bookmarksList.insertAdjacentHTML("afterbegin", bookmarksMarkup);
 }
 
 // ********************************* Event Handlers
@@ -847,6 +963,19 @@ $("body").on("click", ".pagination", function (e) {
     });
 });
 
+// *******************
+// Event Handler - Clicking on bookmarks (event delegation) MOVE to bottom when finished
+// *******************
+$("body").on("click", ".bookmarks__list", function (e) {
+  // 1. Locate the clicked bookmark element using data-bkindex in state.bookmarks array
+  //    if not found, return (e.g. if no bookmark, or empty bookmark message, etc.)
+  // 2. Find the index and set it to a variable to be used, use the index to locate the bookmark to be displayed
+  // 3. clearNews(), clear news pane
+  // 4. guard clauses, if news information unavailable, render error in news pane
+  // 5. Generate markup, and insert into news pane (since it's already a bookmark, it should already have bookmarked property set to true; also, display the filled bookmark sign)
+  // 6. set the displayed bookmarked item to the current state object.
+});
+
 // Event handler - Clicking on search results (event delegation)
 $("body").on("click", ".results", function (e) {
   // Step 1: Locate the clicked element (news) from the resultsToDisplay array using data-index property of the preview element
@@ -1045,11 +1174,12 @@ $("body").on("click", ".btn-round-bookmark", function (e) {
     console.log(state.bookmarks); // check
     // 3) Save the updated bookmarks array to local storage
     localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
-    // 4) Render: rerender bookmark icon in newspane (current news)
+    // 4) Render bookmark icon: rerender bookmark icon in newspane (current news)
     $(".svg-bookmark").replaceWith(
       "<svg class='svg-bookmark'><use href='img/icons.svg#icon-bookmark-fill'></use></svg>"
     );
     // 5) Render: render the bookmarked news to nav bookmark (save new)
+    renderBookmarks(state.bookmarks);
     // 6) Render(?): rerender the bookmark icon in the search results (if available)
   }
   // If already bookmarked, delete bookmark
@@ -1071,18 +1201,22 @@ $("body").on("click", ".btn-round-bookmark", function (e) {
       "<svg class='svg-bookmark'><use href='img/icons.svg#icon-bookmark'></use></svg>"
     );
     // 5) Render: render the bookmarked news to nav bookmark (delete it)
+    renderBookmarks(state.bookmarks);
     // 6) Render(?): rerender the bookmark icon in the search results (if available)
   }
 });
 
 //Execute below upon loading of new page (after loading of page)
 const init = function () {
-  //store local storage bookmarks (in string format) into 'storage' variable
+  // store local storage bookmarks (in string format) into 'storage' variable
   const storage = localStorage.getItem("bookmarks");
-  //If local storage has content, then store the content (parsed: converted from string to stored bookmarks array) into state.bookmarks array
+  // If local storage has content, then store the content (parsed: converted from string to stored bookmarks array) into state.bookmarks array
   if (storage) state.bookmarks = JSON.parse(storage);
 
   console.log(state.bookmarks); // check
+
+  // render bookmarks (from local storage) to bookmarks tab
+  renderBookmarks(state.bookmarks);
 };
 
 // CALL init function
@@ -1104,9 +1238,10 @@ init();
 // 9. Add error checking for error 403, notifying user to switch browser to firefox, or mobile device for function to work
 // 10.*FIXED when on oldest and popularity options and clicking on pagination, format goes back to Most recent focus (what about results?)
 // 11. Consider clearing news pane when new sort options clicked? (on pagination it's ok to keep the pane i think)
-// 12. Bookmark: When adding bookmark, check if the bookmark array already contains the news, if so, do not push again
-// 13. FIXED: Bookmark: When displaying a news page that already has the bookmark button highlighted, when clicking on it, it stays on highlighted (but actually added again, not delete), need to delete it if it is already highlighted
-// 13. How to delete bookmark and local storage with a button
+// 12.*NO NEED TO FIX, ALREADY CORRECT: Bookmark: When click to add bookmark, check if the bookmark array already contains the news, if so, do not push again (for news loaded from localstorage, this issue is already solved when 'bookmarked' property is added upon clicking on already bookmarked search result loaded from localstorage)
+// 13.*FIXED: Bookmark: When displaying a news page that already has the bookmark button highlighted, when clicking on it, it stays on highlighted (but actually added again, not delete), need to delete it if it is already highlighted
+// 13. How to delete bookmark and local storage with a button click(?)
+// 14. Active search result selected - format change (?)
 
 // Potential Improvements
 // 1. Add languages, search in different languages
