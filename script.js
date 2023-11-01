@@ -29,16 +29,19 @@ let searchBtnClick = true;
 // ********** State object - Object that contains the data for the current search query and results
 // Consider updating/clearing every time 'search' button is clicked?
 const state = {
-  news: {}, // Pick and Copy from state.search.resultsToRender array based on some form of id (what?)
+  news: {}, // Chosen news to display (from search results) will be saved in here, however, this news doesn't contain the 'bookmarked' property
   search: {
     query: "",
     totalResults: 0, // Number of total search results for the query
-    resultsToDisplay: [], // Results (articles) actually received on query and to be displayed on page, a chosen result will be copied into the state.news object
+    resultsToDisplay: [], // Results (news articles) actually received on query and to be displayed on page, a chosen result will be copied into the state.news object
     page: 1, //state variable for current page number (that's being displayed), pagination will use this variable
     resultsPerPage: RES_PER_PAGE, // 'resultsPerPage' is how many results we want shown on one page of search results, get it from config.js (RES_PER_PAGE)
     sortBy: "published_desc", // By default, set search results to sort by publishing date in decending order (from latest)
   },
-  bookmarks: [],
+  bookmarks: [], // When bookmark btn clicked, will save news to this array, save to localStorage; when page reloads, localstorage will be retrieved
+  // NOTE: The bookmarked objects retrieved from local storage is NOT the same as the objects in the resultsToDisplay, the ONLY difference is the objects in the bookmarks contains the 'bookmarked' property, set to true;
+  // NOTE: However, if you display an object from resultsToDisplay, and save it to state.news, then bookmark that object, that object will have the 'bookmarked' property added and set to true
+  // NOTE: So whether the object is bookmarked in the current page load or the object was bookmarked in previous page load and is retrieved back from local storage has to be treated differently
 };
 
 // *********************************
@@ -234,7 +237,7 @@ function renderSearchResults(data) {
                     >
                       <button class="btn--round btn-round-preview" type="button">
                         <svg class="">
-                          <use href="img/icons.svg#icon-bookmark-fill"></use>
+                          <use href="img/icons.svg#icon-bookmark"></use>
                         </svg>
                       </button>
                     </div>
@@ -560,6 +563,20 @@ function clearNews() {
   news.innerHTML = "";
 }
 
+// ************************************ Bookmark related functions
+
+// Check if chosen news object is already in the bookmark array
+// Although bookmark array will load past results on page reload, when you reload page and perform a new search, the results array objects will be used to fetch and the chosen result will be selected from the results array (not the bookmarks array)
+// In order to display the bookmark icon correctly upon loading the chosen result, need to check if the chosen result already exists in the bookmark array
+// If the chosen result can be found within the bookmarked array (from local storage or just saved in current page views), function return true
+// This boolean value will be used in the render news function call to display bookmarks correctly
+function checkIfNewsIsBookmarked(bookmarkArr, news) {
+  // Some method: If one of the bookmarked news has the same description as the chosen news' description, return true
+  return bookmarkArr.some(
+    (bookmarkedNews) => bookmarkedNews.description === news.description
+  );
+}
+
 // ********************************* Event Handlers
 
 // On page load, clear input field
@@ -879,6 +896,7 @@ $("body").on("click", ".results", function (e) {
     // clearNews();
 
     // render clicked news article
+    // NOTE: To display bookmark icon correctly, needs to call above function to check if the chosen news matches with anything in the bookmark array
     const markup = `
         <!-- news header -->
         <div class="news-header d-flex flex-column px-5 pt-5 pb-2">
@@ -973,9 +991,13 @@ $("body").on("click", ".results", function (e) {
             </button>
           </a>
           <a class="news-source-btn-bookmark text-decoration-none me-5" href="">
-            <button class="btn--round" type="button">
-              <svg class="">
-                <use href="img/icons.svg#icon-bookmark-fill"></use>
+            <button class="btn--round btn-round-bookmark" type="button">
+              <svg class="svg-bookmark">
+                <use href="${
+                  checkIfNewsIsBookmarked(state.bookmarks, newsToDisplay)
+                    ? "img/icons.svg#icon-bookmark-fill"
+                    : "img/icons.svg#icon-bookmark"
+                }"></use>
               </svg>
             </button>
           </a>
@@ -984,10 +1006,88 @@ $("body").on("click", ".results", function (e) {
 
     // insert to news pane
     news.insertAdjacentHTML("afterbegin", markup);
+
+    // NOTE: To account for bookmarked objects from local storage, we need to add "bookmarked" property to newsToDisplay object if it matches with one of the object in state.bookmarks
+    // NOTE: If the bookmarked object is bookmarked from the current page load, then newsToDisplay already contains 'bookmarked' property
+    if (
+      checkIfNewsIsBookmarked(state.bookmarks, newsToDisplay) &&
+      !newsToDisplay.bookmarked
+    ) {
+      // If newsToDisplay is inside state.bookmarks, and newsToDisplay doesn't contain the bookmarked property, add the property and set to true
+      newsToDisplay.bookmarked = true;
+    }
+
+    // Assign newsToDisplay to the current news Array in the state object
+    state.news = newsToDisplay;
+    console.log(newsToDisplay);
   }
 
   e.preventDefault();
 });
+
+// Event handler - Clicking on Bookmark button
+$("body").on("click", ".btn-round-bookmark", function (e) {
+  //Prevent unwanted reloading of page upon click
+  e.preventDefault();
+  // console.log("bk btn clicked");
+
+  // Check if bookmarked already
+  // If not currently bookmarked, add new bookmark
+  if (!state.news.bookmarked) {
+    // 1) Add bookmark property to current news and set it to true
+    state.news.bookmarked = true;
+    // console.log(state.news);
+    // 2) Push the current news to bookmarks array
+
+    // CHECK IF bookmark already contains the news!!!
+
+    state.bookmarks.push(state.news);
+    console.log(state.bookmarks); // check
+    // 3) Save the updated bookmarks array to local storage
+    localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
+    // 4) Render: rerender bookmark icon in newspane (current news)
+    $(".svg-bookmark").replaceWith(
+      "<svg class='svg-bookmark'><use href='img/icons.svg#icon-bookmark-fill'></use></svg>"
+    );
+    // 5) Render: render the bookmarked news to nav bookmark (save new)
+    // 6) Render(?): rerender the bookmark icon in the search results (if available)
+  }
+  // If already bookmarked, delete bookmark
+  else {
+    // 1) Set current news bookmark property to false
+    state.news.bookmarked = false;
+    // console.log(state.news); // check
+    // 2) Find the news index in bookmarks array that has the same description as the current news' description
+    const indexBookmark = state.bookmarks.findIndex(
+      (el) => el.description === state.news.description
+    );
+    // 3) delete above bookmark from bookmarks array (below second parameter means: delete just 1 object)
+    state.bookmarks.splice(indexBookmark, 1);
+    console.log(state.bookmarks); // check
+    // 3) Save the updated bookmarks array to local storage
+    localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
+    // 4) Render: rerender bookmark icon in newspane (current news)
+    $(".svg-bookmark").replaceWith(
+      "<svg class='svg-bookmark'><use href='img/icons.svg#icon-bookmark'></use></svg>"
+    );
+    // 5) Render: render the bookmarked news to nav bookmark (delete it)
+    // 6) Render(?): rerender the bookmark icon in the search results (if available)
+  }
+});
+
+//Execute below upon loading of new page (after loading of page)
+const init = function () {
+  //store local storage bookmarks (in string format) into 'storage' variable
+  const storage = localStorage.getItem("bookmarks");
+  //If local storage has content, then store the content (parsed: converted from string to stored bookmarks array) into state.bookmarks array
+  if (storage) state.bookmarks = JSON.parse(storage);
+
+  console.log(state.bookmarks); // check
+};
+
+// CALL init function
+// NOTE: As page loads, local storage and bookmark array will get filled. However, when search is performed, results displayed are saved in the resultsToDisplay array, and those results DO NOT HAVE the 'bookmarked' property, i.e. the objects inside resultsToDiplay array are different from bookmark array
+init();
 
 // BUGS
 // 1. *FIXED NO NEED When results return is invalid - especially img, consider replacing img with a custom made local img with logo
@@ -1004,7 +1104,9 @@ $("body").on("click", ".results", function (e) {
 // 9. Add error checking for error 403, notifying user to switch browser to firefox, or mobile device for function to work
 // 10.*FIXED when on oldest and popularity options and clicking on pagination, format goes back to Most recent focus (what about results?)
 // 11. Consider clearing news pane when new sort options clicked? (on pagination it's ok to keep the pane i think)
-// 12. Bookmark?
+// 12. Bookmark: When adding bookmark, check if the bookmark array already contains the news, if so, do not push again
+// 13. FIXED: Bookmark: When displaying a news page that already has the bookmark button highlighted, when clicking on it, it stays on highlighted (but actually added again, not delete), need to delete it if it is already highlighted
+// 13. How to delete bookmark and local storage with a button
 
 // Potential Improvements
 // 1. Add languages, search in different languages
