@@ -968,12 +968,144 @@ $("body").on("click", ".pagination", function (e) {
 // *******************
 $("body").on("click", ".bookmarks__list", function (e) {
   // 1. Locate the clicked bookmark element using data-bkindex in state.bookmarks array
-  //    if not found, return (e.g. if no bookmark, or empty bookmark message, etc.)
+  const bookmarkClicked = e.target.closest(".preview-bookmark");
+  // 1a.if not found, return (e.g. if no bookmark, or empty bookmark message, etc.)
+  if (!bookmarkClicked) return;
+
   // 2. Find the index and set it to a variable to be used, use the index to locate the bookmark to be displayed
+  const bookmarkToDisplayIndex = bookmarkClicked.dataset.bkindex;
+  console.log(bookmarkToDisplayIndex);
+
+  // Use above index to find corresponding bookmark in bookmark array and save the selected bookmark to variable
+  const bookmarkToDisplay = state.bookmarks[bookmarkToDisplayIndex];
+  console.log(bookmarkToDisplay);
+
   // 3. clearNews(), clear news pane
+  clearNews();
+
   // 4. guard clauses, if news information unavailable, render error in news pane
+  if (
+    !bookmarkToDisplay.title &&
+    !bookmarkToDisplay.description &&
+    !bookmarkToDisplay.url
+  ) {
+    // If bookmark news result not valid, render error in news pane
+    renderErrorNews();
+  }
   // 5. Generate markup, and insert into news pane (since it's already a bookmark, it should already have bookmarked property set to true; also, display the filled bookmark sign)
+  else {
+    const markup = `
+        <!-- news header -->
+        <div class="news-header d-flex flex-column px-5 pt-5 pb-2">
+          <!-- source -->
+          <div class="news-source-container">
+            <p
+              class="news-source fs-5 fw-bold align-middle mb-1 text-uppercase"
+            >
+              ${
+                bookmarkToDisplay.source
+                  ? bookmarkToDisplay.source
+                  : "Unspecified Source"
+              }
+            </p>
+          </div>
+          <!-- title -->
+          <div class="news-title-container">
+            <h2 class="news-title fs-1 fw-bold">
+              ${
+                bookmarkToDisplay.title
+                  ? bookmarkToDisplay.title
+                  : "Unspecified News Title"
+              }
+            </h2>
+          </div>
+          <!-- news author and publish time -->
+          <div class="d-flex news-info-container">
+            <!-- author -->
+            <div class="news-author-container d-flex fs-5 pe-4">
+              <span>By&nbsp;</span>
+              <p class="news-author fst-italic">${
+                bookmarkToDisplay.author
+                  ? bookmarkToDisplay.author
+                  : "Unspecified author"
+              }</p>
+            </div>
+            <!-- publish time -->
+            <div class="news-pub-time-container d-flex fs-5">
+              <span>Updated&nbsp;</span>
+              <p class="news-pub-time fst-italic">${
+                bookmarkToDisplay.published_at
+                  ? bookmarkToDisplay.published_at.substring(0, 4)
+                  : "--"
+              }-${
+      bookmarkToDisplay.published_at
+        ? bookmarkToDisplay.published_at.substring(5, 7)
+        : "-"
+    }-${
+      bookmarkToDisplay.published_at
+        ? bookmarkToDisplay.published_at.substring(8, 10)
+        : "-"
+    }&nbsp;${
+      bookmarkToDisplay.published_at
+        ? bookmarkToDisplay.published_at.substring(11, 19)
+        : ""
+    }</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- news img -->
+        <div class="news-img-container px-5">
+          <img
+            class="news-img" ${
+              bookmarkToDisplay.image
+                ? "src=" + bookmarkToDisplay.image
+                : "src='' style='display:none'"
+            }
+          />
+        </div>
+
+        <!-- news description -->
+        <div class="news-description-container px-5 pt-4 pb-4">
+          <h4 class="news-description">
+           ${bookmarkToDisplay.description}
+          </h4>
+        </div>
+
+        <!-- news source and bookmark button -->
+        <div
+          class="news-action-container px-5 pt-1 d-flex justify-content-between align-items-center"
+        >
+          <a
+            class="news-source-btn-link text-decoration-none me-3"
+            href="${bookmarkToDisplay.url}" target="_blank"
+          >
+            <button class="btn news-source-btn ms-1" type="button">
+              <!-- <svg class="search__icon">
+              <use href="img/icons.svg#icon-search"></use>
+            </svg> -->
+              <span>See Full Article</span>
+            </button>
+          </a>
+          <a class="news-source-btn-bookmark text-decoration-none me-5" href="">
+            <button class="btn--round btn-round-bookmark" type="button">
+              <svg class="svg-bookmark">
+                <use href="${`img/icons.svg#icon-bookmark-fill`}"></use>
+              </svg>
+            </button>
+          </a>
+        </div>
+        `;
+
+    // insert to news pane
+    news.insertAdjacentHTML("afterbegin", markup);
+  }
   // 6. set the displayed bookmarked item to the current state object.
+  state.news = bookmarkToDisplay;
+  console.log(state.news);
+
+  // 7. Prevent automatic reloading of webpage
+  e.preventDefault();
 });
 
 // Event handler - Clicking on search results (event delegation)
