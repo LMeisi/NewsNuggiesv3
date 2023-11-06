@@ -1372,8 +1372,10 @@ init();
 // 11. Consider clearing news pane when new sort options clicked? (on pagination it's ok to keep the pane i think)
 // 12.*NO NEED TO FIX, ALREADY CORRECT: Bookmark: When click to add bookmark, check if the bookmark array already contains the news, if so, do not push again (for news loaded from localstorage, this issue is already solved when 'bookmarked' property is added upon clicking on already bookmarked search result loaded from localstorage)
 // 13.*FIXED: Bookmark: When displaying a news page that already has the bookmark button highlighted, when clicking on it, it stays on highlighted (but actually added again, not delete), need to delete it if it is already highlighted
-// 13. How to delete bookmark and local storage with a button click(?)
-// 14. Active search result selected - format change (?)
+// 13. Active search result selected - format change (?)
+// 14. Transition the search results and new pane loads (fade in)
 
 // Potential Improvements
 // 1. Add languages, search in different languages
+// 2. Currently the preview bookmarks are hidden (opacity 0); Later if needed, consider adding preview bookmark buttons for additional functionality
+// 3. Add a button to delete bookmark and local storage with a button click

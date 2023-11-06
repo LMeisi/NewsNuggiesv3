@@ -288,8 +288,8 @@ body {
 }
 
 .header__logo {
-  height: 6.8rem;
-  margin-left: 4rem;
+  height: 7.6rem;
+  margin-left: 5rem;
   display: block;
 }
 
@@ -532,6 +532,12 @@ body {
   fill: #f38e82;
 }
 
+/* Newly added */
+/* Set bookmark display to none doesn't work (why?) */
+.preview-bookmark-container {
+  opacity: 0;
+}
+
 .search-results {
   flex-direction: column;
   padding: 3rem 0;
@@ -579,6 +585,21 @@ body {
 .copyright .personal-link:link,
 .copyright .personal-link:visited {
   color: #918581;
+}
+
+.copyright .personal-link:hover,
+.copyright .personal-link:active {
+  color: #6a615e;
+}
+
+.mediastack-link:link,
+.mediastack-link:visited {
+  color: #918581;
+}
+
+.mediastack-link:hover,
+.mediastack-link:active {
+  color: #6a615e;
 }
 
 .recipe {
