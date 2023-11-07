@@ -542,11 +542,16 @@ body {
   flex-direction: column;
   padding: 3rem 0;
   display: flex;
+  /* display: none; */
+  /* transition: all 0.3s; */
 }
 
 .results {
   margin-bottom: 2rem;
   list-style: none;
+  /* display: none; */
+  /* transition: all 0.3s; */
+  /* opacity: 1; */
 }
 
 /* NEW ADDED */
@@ -554,6 +559,7 @@ body {
   padding-left: 5.25rem; /* 2rem + 3.25rem, check results css */
   padding-right: 3.25rem;
   font-size: 1.15rem;
+  /* display: none; */
 }
 
 .pagination {
@@ -867,6 +873,10 @@ body {
 
 /* ////////////////////////////// */
 /* New Formats */
+/* .news {
+  display: none;
+} */
+
 .news-img {
   max-width: 100%;
 }
