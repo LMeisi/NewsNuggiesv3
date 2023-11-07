@@ -370,7 +370,7 @@ function renderErrorSearchResults(
 // Function: Render Error message for HTTP error
 // If no argument passed, use default message
 function renderErrorHttp403(
-  errorMsg = "NOTE: Please type in the full address 'http://newsnuggies.info' in Firefox or Chrome Browser if you are using desktop/laptop to access search functionality; or use a mobile/tablet device. Please clear cache before searching, thank you!"
+  errorMsg = "NOTE: Please use Firefox Browser AND type in the full address 'http://newsnuggies.info' if you are using desktop/laptop, please clear cache before searching; Or you can access this website using a mobile/tablet device. thank you!"
 ) {
   // Error Msg check
   console.log(errorMsg);
