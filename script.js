@@ -552,6 +552,7 @@ function showSearchResults() {
 
       // Show http error message
       if (ajaxResponseStatus == "403") {
+        console.log(ajaxResponseStatus);
         renderErrorHttp403();
       }
       // else if (ajaxResponseStatus == "422") {
