@@ -344,10 +344,18 @@ function renderSpinnerSearchResultsForPagination() {
 // Function: Render Error messages for search results
 // If no argument passed, use default message
 function renderErrorSearchResults(
-  errorMsg = "No news found for your query! Please try another one!"
+  errorMsg = "No news found for your query. Please try another one!"
 ) {
   // Error Msg check
   console.log(errorMsg);
+
+  // Browser Note for Windows
+  const browserNote =
+    "*Note for Windows OS users: Please use Firefox browser and type in the full URL: http://newsnuggies.info";
+
+  // Browser cache note
+  const browserNoteCache =
+    "*Note: Please clear browser cache before Searching for best results.";
 
   // Generate markup
   const errorMarkup = `
@@ -357,7 +365,7 @@ function renderErrorSearchResults(
             <use href="img/icons.svg#icon-alert-triangle"></use>
           </svg>
         </div>
-        <p>${errorMsg}</p>
+        <p>${errorMsg}<br><br><em class="fs-4">${browserNote}<br><br>${browserNoteCache}<em></p>
       </div>
     `;
 
@@ -370,7 +378,7 @@ function renderErrorSearchResults(
 // Function: Render Error message for HTTP error
 // If no argument passed, use default message
 function renderErrorHttp403(
-  errorMsg = "NOTE: Please use Firefox Browser AND type in the full address 'http://newsnuggies.info' if you are using desktop/laptop, please clear cache before searching; Or you can access this website using a mobile/tablet device. thank you!"
+  errorMsg = "NOTE: Please use Firefox Browser AND type in the full address 'http://newsnuggies.info' if you are using Windows desktop/laptop, please clear cache before searching. Thank you!"
 ) {
   // Error Msg check
   console.log(errorMsg);
@@ -551,16 +559,13 @@ function showSearchResults() {
       console.log(err);
 
       // Show http error message
-      if (ajaxResponseStatus == "403") {
-        console.log(ajaxResponseStatus);
-        renderErrorHttp403();
-      }
-      // else if (ajaxResponseStatus == "422") {
-      //   console.log("experiment success!");
+      // if (ajaxResponseStatus == "403") {
+      //   console.log(ajaxResponseStatus);
+      //   renderErrorHttp403();
+      // } else {
+      //   renderErrorSearchResults();
       // }
-      else {
-        renderErrorSearchResults();
-      }
+      renderErrorSearchResults();
     });
 }
 
@@ -815,15 +820,12 @@ $("body").on("click", ".sort-btn-published-desc", function (e) {
       // If search returns error, loadSearResults will return a Promise with an error as its value, that error is caught and error message will be printed
       console.log(err);
       // Show http error message
-      if (ajaxResponseStatus == "403") {
-        renderErrorHttp403();
-      }
-      // else if (ajaxResponseStatus == "422") {
-      //   console.log("experiment success!");
+      // if (ajaxResponseStatus == "403") {
+      //   renderErrorHttp403();
+      // } else {
+      //   renderErrorSearchResults();
       // }
-      else {
-        renderErrorSearchResults();
-      }
+      renderErrorSearchResults();
     });
 });
 
@@ -886,16 +888,14 @@ $("body").on("click", ".sort-btn-published-asc", function (e) {
 
       // If search returns error, loadSearResults will return a Promise with an error as its value, that error is caught and error message will be printed
       console.log(err);
-      // Show http error message
-      if (ajaxResponseStatus == "403") {
-        renderErrorHttp403();
-      }
-      // else if (ajaxResponseStatus == "422") {
-      //   console.log("experiment success!");
+      // // Show http error message
+      // if (ajaxResponseStatus == "403") {
+      //   renderErrorHttp403();
       // }
-      else {
-        renderErrorSearchResults();
-      }
+      // else {
+      //   renderErrorSearchResults();
+      // }
+      renderErrorSearchResults();
     });
 });
 
@@ -957,16 +957,14 @@ $("body").on("click", ".sort-btn-published-popularity", function (e) {
 
       // If search returns error, loadSearResults will return a Promise with an error as its value, that error is caught and error message will be printed
       console.log(err);
-      // Show http error message
-      if (ajaxResponseStatus == "403") {
-        renderErrorHttp403();
-      }
-      // else if (ajaxResponseStatus == "422") {
-      //   console.log("experiment success!");
+      // // Show http error message
+      // if (ajaxResponseStatus == "403") {
+      //   renderErrorHttp403();
       // }
-      else {
-        renderErrorSearchResults();
-      }
+      // else {
+      //   renderErrorSearchResults();
+      // }
+      renderErrorSearchResults();
     });
 });
 
@@ -1029,16 +1027,14 @@ $("body").on("click", ".pagination", function (e) {
 
       // If search returns error, loadSearResults will return a Promise with an error as its value, that error is caught and error message will be printed
       console.log(err);
-      // Show http error message
-      if (ajaxResponseStatus == "403") {
-        renderErrorHttp403();
-      }
-      // else if (ajaxResponseStatus == "422") {
-      //   console.log("experiment success!");
+      // // Show http error message
+      // if (ajaxResponseStatus == "403") {
+      //   renderErrorHttp403();
       // }
-      else {
-        renderErrorSearchResults();
-      }
+      // else {
+      //   renderErrorSearchResults();
+      // }
+      renderErrorSearchResults();
     });
 });
 
@@ -1444,22 +1440,29 @@ init();
 // 1. *FIXED NO NEED When results return is invalid - especially img, consider replacing img with a custom made local img with logo
 // 2. *FIXED Sometimes when displaying images (or articles), it moves to the left of the container instead of justifying to the end (right side) WHY??? Height? Width? already set width to 100%...
 // 3. *FIXED Some result objects would be "REMOVED", how to actually remove those results from my searach results, e.g. below: (note: sometimes author is null, that's fine, maybe use 'content' or 'title' to check for it)
-// 3m. Change the padding of the description to be a bit less than now (change manually in css, bootstrap is a bit too much)
-// 4. Fade out the last line of search results (3 lines total (?))
+// 4. *FIXED Change the last line of results to '...' if more content isn't shown (use webkit and text-overflow: ellipsis)
 // 5. *FIXED Fix the format of sort options, add 'active' class to denote the chosen sort option; align the sort options to the right side with margins, to align with the page number on the top line
-// 5m. media query for sort options top line, change it to line by line showing instead of cramming in 1 liner
 // 6. *FIXED Pagination: needs to fix when clicking on different sort option, pagination should start from page 1 again, also check if pagination is working correctly
-//    Solved: for pagination, when clearing results, do not clear the options, leave it there; BUT update the current page (remove current, replace with updated page number)
+//            Solved: for pagination, when clearing results, do not clear the options, leave it there; BUT update the current page (remove current, replace with updated page number)
 // 7. *FIXED Keep the search term there after search button press
 // 8. *FIXED When alredy have content in news pane, and search button is clicked again, the news pane should clear content, now it keeps the old content as new search results load
-// 9. Add error checking for error 403, notifying user to switch browser to firefox, or mobile device for function to work
+// 9. *FIXED (Since unsure how to identify error code for differen browsers, will NOT add error checking for 403 only, instead, use a generic message for all errors) Add error checking for error 403, notifying user to switch browser to firefox, or mobile device for function to work
 // 10.*FIXED when on oldest and popularity options and clicking on pagination, format goes back to Most recent focus (what about results?)
 // 11.*NO NEED TO FIX Consider clearing news pane when new sort options clicked? (on pagination it's ok to keep the pane i think)
-// 12.*NO NEED TO FIX, ALREADY CORRECT: Bookmark: When click to add bookmark, check if the bookmark array already contains the news, if so, do not push again (for news loaded from localstorage, this issue is already solved when 'bookmarked' property is added upon clicking on already bookmarked search result loaded from localstorage)
+// 12.*NO NEED TO FIX ALREADY CORRECT: Bookmark: When click to add bookmark, check if the bookmark array already contains the news, if so, do not push again (for news loaded from localstorage, this issue is already solved when 'bookmarked' property is added upon clicking on already bookmarked search result loaded from localstorage)
 // 13.*FIXED: Bookmark: When displaying a news page that already has the bookmark button highlighted, when clicking on it, it stays on highlighted (but actually added again, not delete), need to delete it if it is already highlighted
-// 13. Active search result selected - format change (?)
-// 14. Transition the search results and new pane loads (fade in)
-// 15. Refactoring
+// 14. Understand the current formats
+// 15. Transition the search results and new pane loads (fade in) ? Still need?
+// 16. Change the padding of the description to be a bit less than now (change manually in css, bootstrap is a bit too much)
+// 17. media query for sort options top line, change it to line by line showing instead of cramming in 1 liner
+// 18. Starting message in news pane? ('start your search or something like that?' check reference)
+
+// To Do List
+// A. Refactoring code
+// B. Media query
+// C. Write document for algorithm
+// D. Clear console logs
+// E. Clear formatting
 
 // Potential Improvements
 // 1. Add languages, search in different languages
