@@ -1071,7 +1071,7 @@ $("body").on("click", ".bookmarks__list", function (e) {
   else {
     const markup = `
         <!-- news header -->
-        <div class="news-header d-flex flex-column px-5 pt-5 pb-2">
+        <div class="news-header d-flex flex-column mb-2 mx-4 px-5 pt-5 pb-2">
           <!-- source -->
           <div class="news-source-container">
             <p
@@ -1130,9 +1130,9 @@ $("body").on("click", ".bookmarks__list", function (e) {
         </div>
 
         <!-- news img -->
-        <div class="news-img-container px-5">
+        <div class="news-img-container mx-4 px-5">
           <img
-            class="news-img" ${
+            class="news-img mb-3 rounded-4 shadow" ${
               bookmarkToDisplay.image
                 ? "src=" + bookmarkToDisplay.image
                 : "src='' style='display:none'"
@@ -1141,15 +1141,15 @@ $("body").on("click", ".bookmarks__list", function (e) {
         </div>
 
         <!-- news description -->
-        <div class="news-description-container px-5 pt-4 pb-4">
-          <h4 class="news-description">
+        <div class="news-description-container mb-2 mx-4 px-5 pt-4 pb-4">
+          <h4 class="news-description lh-base">
            ${bookmarkToDisplay.description}
           </h4>
         </div>
 
         <!-- news source and bookmark button -->
         <div
-          class="news-action-container px-5 pt-1 d-flex justify-content-between align-items-center"
+          class="news-action-container mx-4 px-5 pt-1 d-flex justify-content-between align-items-center"
         >
           <a
             class="news-source-btn-link text-decoration-none me-3"
@@ -1241,7 +1241,7 @@ $("body").on("click", ".results", function (e) {
     // NOTE: To display bookmark icon correctly, needs to call above function to check if the chosen news matches with anything in the bookmark array
     const markup = `
         <!-- news header -->
-        <div class="news-header d-flex flex-column px-5 pt-5 pb-2">
+        <div class="news-header d-flex flex-column mb-2 mx-4 px-5 pt-5 pb-2">
           <!-- source -->
           <div class="news-source-container">
             <p
@@ -1300,9 +1300,9 @@ $("body").on("click", ".results", function (e) {
         </div>
 
         <!-- news img -->
-        <div class="news-img-container px-5">
+        <div class="news-img-container mx-4 px-5">
           <img
-            class="news-img" ${
+            class="news-img mb-3 rounded-4 shadow" ${
               newsToDisplay.image
                 ? "src=" + newsToDisplay.image
                 : "src='' style='display:none'"
@@ -1311,15 +1311,15 @@ $("body").on("click", ".results", function (e) {
         </div>
 
         <!-- news description -->
-        <div class="news-description-container px-5 pt-4 pb-4">
-          <h4 class="news-description">
+        <div class="news-description-container mb-2 mx-4 px-5 pt-4 pb-4">
+          <h4 class="news-description lh-base">
            ${newsToDisplay.description}
           </h4>
         </div>
 
         <!-- news source and bookmark button -->
         <div
-          class="news-action-container px-5 pt-1 d-flex justify-content-between align-items-center"
+          class="news-action-container mx-4 px-5 pt-1 d-flex justify-content-between align-items-center"
         >
           <a
             class="news-source-btn-link text-decoration-none me-3"
@@ -1453,14 +1453,14 @@ init();
 // 13.*FIXED: Bookmark: When displaying a news page that already has the bookmark button highlighted, when clicking on it, it stays on highlighted (but actually added again, not delete), need to delete it if it is already highlighted
 // 14. Understand the current formats
 // 15. Transition the search results and new pane loads (fade in) ? Still need?
-// 16. Change the padding of the description to be a bit less than now (change manually in css, bootstrap is a bit too much)
+// 16. *FIXED: Change the padding of the description to be a bit less than now (change manually in css, bootstrap is a bit too much)
 // 17. media query for sort options top line, change it to line by line showing instead of cramming in 1 liner
-// 18. Starting message in news pane? ('start your search or something like that?' check reference)
+// 18. *FIXED: Starting message in news pane? ('start your search or something like that?' check reference) Also changed background colors
 
 // To Do List
 // A. Refactoring code
 // B. Media query
-// C. Write document for algorithm
+// C. Write process doc for algorithm
 // D. Clear console logs
 // E. Clear formatting
 
