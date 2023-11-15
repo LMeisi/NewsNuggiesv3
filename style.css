@@ -622,9 +622,11 @@ body {
 /* ////////////////////////////// */
 /* New Formats */
 .news {
+  /* display: block; */
   /* background-color: #f9f5f3; */
   background-image: linear-gradient(to bottom, #f8f2efb8, #eee8e5b8);
   /* background-image: linear-gradient(to bottom, #f9f5f3, #eee8e5b8); */
+  /* opacity: 0; */
   /* display: none; */
 }
 
