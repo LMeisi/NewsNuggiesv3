@@ -625,6 +625,7 @@ body {
   /* background-color: #f9f5f3; */
   background-image: linear-gradient(to bottom, #f8f2efb8, #eee8e5b8);
   /* background-image: linear-gradient(to bottom, #f9f5f3, #eee8e5b8); */
+  /* display: none; */
 }
 
 .news-img {
@@ -636,7 +637,8 @@ body {
   color: #fff;
 }
 
-.news-source-btn:hover {
-  /* color: #615551; */
-  color: #fff;
+.news-source-btn:hover,
+.news-source-btn:active {
+  color: #615551e5 !important;
+  /* color: #fff !important; */
 }

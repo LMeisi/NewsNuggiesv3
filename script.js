@@ -274,7 +274,9 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
     <div class="results-total-container">
       <div class="results-total d-flex align-items-center">
         <p class="results-total-title me-2 mb-1">Total Results:</p>
-        <p class="results-total-num me-5 mb-0 fw-bold fst-italic">${totalResults}</p>
+        <p class="results-total-num me-5 mb-0 fw-bold fst-italic">${
+          totalResults >= 10000 ? "10000+" : totalResults
+        }</p>
         <p class="results-total-page me-2 mb-0">Total Pages:</p>
         <p class="results-total-page-num me-5 mb-0 fw-bold fst-italic">${Math.ceil(
           totalResults / resultsPerPage
@@ -1451,11 +1453,12 @@ init();
 // 11.*NO NEED TO FIX Consider clearing news pane when new sort options clicked? (on pagination it's ok to keep the pane i think)
 // 12.*NO NEED TO FIX ALREADY CORRECT: Bookmark: When click to add bookmark, check if the bookmark array already contains the news, if so, do not push again (for news loaded from localstorage, this issue is already solved when 'bookmarked' property is added upon clicking on already bookmarked search result loaded from localstorage)
 // 13.*FIXED: Bookmark: When displaying a news page that already has the bookmark button highlighted, when clicking on it, it stays on highlighted (but actually added again, not delete), need to delete it if it is already highlighted
-// 14. Understand the current formats
-// 15. Transition the search results and new pane loads (fade in) ? Still need?
+// 14. CONTINUE: Understand the current formats
+// 15. ?Transition the search results and news pane loads (fade in) ? Still need?
 // 16. *FIXED: Change the padding of the description to be a bit less than now (change manually in css, bootstrap is a bit too much)
 // 17. media query for sort options top line, change it to line by line showing instead of cramming in 1 liner
 // 18. *FIXED: Starting message in news pane? ('start your search or something like that?' check reference) Also changed background colors
+// 19. *FIXED: Change 'full article' color when clicked on (now blue)
 
 // To Do List
 // A. Refactoring code
