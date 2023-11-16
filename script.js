@@ -1400,13 +1400,19 @@ init();
 // 14. CONTINUE: Understand the current formats
 // 15. *NO NEED TO FIX: Transition the search results and news pane loads (fade in) ? Still need? Not for now, consider as future improvements
 // 16. *FIXED: Change the padding of the description to be a bit less than now (change manually in css, bootstrap is a bit too much)
-// 17. media query for sort options top line, change it to line by line showing instead of cramming in 1 liner
+// 17. *FIXED: (however, need tuning based on below media query update) media query for sort options top line, change it to line by line showing instead of cramming in 1 liner
 // 18. *FIXED: Starting message in news pane? ('start your search or something like that?' check reference) Also changed background colors
 // 19. *FIXED: Change 'full article' color when clicked on (now blue)
 
 // To Do List
 // A. Refactoring code  - *STARTED
-// B. Media query
+// B. Media query - *STARTED
+// B0. BOOKMARK! what to do
+// B1. Footer: Move to bottom when small screen, HOW?
+// B2. Make sure font size change looks good, once change to up and down, consider making fonts bigger
+// B3. Search results image, consider moving down instead of on the side
+// B4. Make sure search options displays look good, maybe put sort options into all one column
+// B5. Change the welcome message from news pane to results pane, if no better other way
 // C. Write process doc for algorithm
 // D. Clear console logs
 // E. Clear formatting
