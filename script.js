@@ -270,42 +270,73 @@ function renderSearchResults(data) {
 // Sort active defaulted to sort_desc
 function renderResultsOptions(totalResults, resultsPerPage, curPage) {
   const optionsMarkup = `
-    <!-- results totals container-->
-    <div class="results-total-container">
-      <div class="results-total d-flex align-items-center">
-        <p class="results-total-title me-2 mb-1">Total Results:</p>
-        <p class="results-total-num me-5 mb-0 fw-bold fst-italic">${
-          totalResults >= 10000 ? "10000+" : totalResults
-        }</p>
-        <p class="results-total-page me-2 mb-0">Total Pages:</p>
-        <p class="results-total-page-num me-5 mb-0 fw-bold fst-italic">${Math.ceil(
-          totalResults / resultsPerPage
-        )}</p>
-        <p class="results-page me-2 mb-0">Page:</p>
-        <p class="results-page-num mb-0 fw-bold fst-italic">${curPage}</p>
-      </div>
-    </div>
-    <!-- "sort by" -->
-    <div class="sort-title col-5">
-      <p>Sort by:</p>
-    </div>
-    <!-- sort options -->
-    <div class="sort-container col-7 d-flex justify-content-around">
-      <div class="sort-option sort-option-relevancy">
-        <button class="btn-sort sort-btn-published-desc sort-active text-decoration-none bg-transparent border-0" type="button">
-          <p class="fst-italic">Most Recent</p>
-        </a>
-      </div>
-      <div class="sort-option sort-option-publishedat">
-        <button class="btn-sort sort-btn-published-asc text-decoration-none bg-transparent border-0" type="button">
-          <p class="fst-italic">Oldest</p>
-        </a>
-      </div>
-      <div class="sort-option sort-option-popularity">
-        <button class="btn-sort sort-btn-published-popularity text-decoration-none bg-transparent border-0" type="button">
-          <p class="fst-italic">Popularity</p>
-        </a>
-      </div>`;
+            <!-- results totals container-->
+            <div class="results-total-container row align-items-center">
+              <div class="results-total-title-container col-xl-5 d-flex">
+                <div class="row">      
+                  <div class="col-sm-8">
+                    <p class="results-total-title mb-1">Total Results:</p>
+                  </div>
+                  <div class="col-sm-4">
+                    <p class="results-total-num col-4 mb-0 fw-bold fst-italic">${
+                      totalResults >= 10000 ? "10000+" : totalResults
+                    }</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="results-total-page-container col-xl-5 d-flex">
+                <div class="row">      
+                  <div class="col-sm-8">
+                    <p class="results-total-page mb-0">Total Pages:</p>
+                  </div>
+                  <div class="col-sm-4">
+                    <p class="results-total-page-num mb-0 fw-bold fst-italic">${Math.ceil(
+                      totalResults / resultsPerPage
+                    )}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="results-page-container col-xl-2 d-flex">
+                <div class="row">      
+                  <div class="col-sm-8">
+                    <p class="results-page mb-0">Page:</p>
+                  </div>
+                  <div class="col-sm-4 results-page-num-container">
+                    <p class="results-page-num mb-0 fw-bold fst-italic">${curPage}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Sort options container -->
+            <div class="sort-options-container row align-items-center">
+              <!-- "sort by" -->
+              <div class="sort-title col-md-3">
+                <p class="mb-0">Sort by:</p>
+              </div>
+              <!-- sort options -->
+              <div class="sort-container col-md-9">
+                <div class="row">
+                  <div class="sort-option sort-option-relevancy col-4">
+                    <button class="btn-sort sort-btn-published-desc sort-active text-decoration-none bg-transparent border-0" type="button">
+                      <p class="fst-italic mb-0">Latest</p>
+                    </a>
+                  </div>
+                  <div class="sort-option sort-option-publishedat col-4">
+                  <button class="btn-sort sort-btn-published-asc text-decoration-none bg-transparent border-0" type="button">
+                      <p class="fst-italic mb-0">Oldest</p>
+                    </a>
+                  </div>
+                  <div class="sort-option sort-option-popularity col-4">
+                    <button class="btn-sort sort-btn-published-popularity text-decoration-none bg-transparent border-0" type="button">
+                      <p class="fst-italic mb-0">Popularity</p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>  
+            `;
 
   resultsOptions.insertAdjacentHTML("afterbegin", optionsMarkup);
 }
@@ -1146,8 +1177,8 @@ $("body").on("click", ".pagination", function (e) {
       const pageNumMarkUp = `<p class="results-page-num mb-0 fw-bold fst-italic">${state.search.page}</p>`;
 
       document
-        .querySelector(".results-total")
-        .insertAdjacentHTML("beforeend", pageNumMarkUp);
+        .querySelector(".results-page-num-container")
+        .insertAdjacentHTML("afterbegin", pageNumMarkUp);
 
       // Render search results based on resultsToDisplay in state object, render pagination
       // Render doesn't need to be async, all data is already local
