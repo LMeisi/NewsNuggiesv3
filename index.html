@@ -118,7 +118,7 @@
             <svg class="search__icon">
               <use href="img/icons.svg#icon-search"></use>
             </svg>
-            <span>SEARCH</span>
+            <span class="btn__text d-none d-sm-block">SEARCH</span>
           </button>
         </form>
 
@@ -137,7 +137,10 @@
                 <svg class="nav__icon">
                   <use href="img/icons.svg#icon-bookmark"></use>
                 </svg>
-                <span>Bookmarks</span>
+                <span class="bookmark__btn__text">Bookmarks</span>
+                <!-- <span class="bookmark__btn__text d-none d-sm-block"
+                >Bookmarks</span
+              > -->
               </button>
               <div class="bookmarks">
                 <ul class="bookmarks__list">
@@ -172,7 +175,9 @@
 
       <div class="search-results">
         <!-- sort options -->
-        <div class="results-options d-flex flex-column mx-0 my-0 gx-0">
+        <div
+          class="results-options d-flex flex-column flex-sm-row flex-lg-column flex-md mx-0 mb-4 gx-0 justify-content-between"
+        >
           <!-- results totals container-->
           <!-- <div class="results-total-container">
             <div class="results-total d-flex">
@@ -347,7 +352,7 @@
         </div>
 
         <!-- Footer -->
-        <p class="copyright">
+        <!-- <p class="copyright">
           &copy; Copyright by
           <a
             class="personal-link text-decoration-none"
@@ -360,7 +365,7 @@
             class="text-decoration-none mediastack-link"
             >MediaStack</a
           >.
-        </p>
+        </p> -->
       </div>
 
       <!-- News Pane -->
@@ -464,6 +469,24 @@
           </a>
         </div> -->
       </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer_bottom">
+      <p class="copyright">
+        Copyright &copy; 2023 by
+        <a
+          class="personal-link text-decoration-none"
+          target="_blank"
+          href="https://github.com/LMeisi"
+          >Meisi Le</a
+        >. All Rights Reserved. <br />Powered by
+        <a
+          href="https://mediastack.com"
+          class="text-decoration-none mediastack-link"
+          >MediaStack</a
+        >.
+      </p>
     </div>
   </body>
 </html>

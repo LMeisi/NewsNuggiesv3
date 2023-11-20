@@ -272,12 +272,12 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
   const optionsMarkup = `
             <!-- results totals container-->
             <div class="results-total-container row align-items-center">
-              <div class="results-total-title-container col-xl-5 d-flex">
+              <div class="results-total-title-container col-5 col-lg-12 col-xl-5 d-flex">
                 <div class="row">      
-                  <div class="col-sm-8">
-                    <p class="results-total-title mb-1">Total Results:</p>
+                  <div class="col-8">
+                    <p class="results-total-title font-orange-bold mb-1">Total Results:</p>
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-4">
                     <p class="results-total-num col-4 mb-0 fw-bold fst-italic">${
                       totalResults >= 10000 ? "10000+" : totalResults
                     }</p>
@@ -285,12 +285,12 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
                 </div>
               </div>
 
-              <div class="results-total-page-container col-xl-5 d-flex">
+              <div class="results-total-page-container col-5 col-lg-12 col-xl-5 d-flex">
                 <div class="row">      
-                  <div class="col-sm-8">
-                    <p class="results-total-page mb-0">Total Pages:</p>
+                  <div class="col-8">
+                    <p class="results-total-page font-orange-bold mb-0">Total Pages:</p>
                   </div>
-                  <div class="col-sm-4">
+                  <div class="col-4">
                     <p class="results-total-page-num mb-0 fw-bold fst-italic">${Math.ceil(
                       totalResults / resultsPerPage
                     )}</p>
@@ -298,12 +298,12 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
                 </div>
               </div>
 
-              <div class="results-page-container col-xl-2 d-flex">
+              <div class="results-page-container col-2 col-lg-12 col-xl-2 d-flex">
                 <div class="row">      
-                  <div class="col-sm-8">
-                    <p class="results-page mb-0">Page:</p>
+                  <div class="col-8">
+                    <p class="results-page font-orange-bold mb-0">Page:</p>
                   </div>
-                  <div class="col-sm-4 results-page-num-container">
+                  <div class="col-4 results-page-num-container">
                     <p class="results-page-num mb-0 fw-bold fst-italic">${curPage}</p>
                   </div>
                 </div>
@@ -312,11 +312,11 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
             <!-- Sort options container -->
             <div class="sort-options-container row align-items-center">
               <!-- "sort by" -->
-              <div class="sort-title col-md-3">
-                <p class="mb-0">Sort by:</p>
+              <div class="sort-title col-3">
+                <p class="mb-0 font-orange-bold">Sort by:</p>
               </div>
               <!-- sort options -->
-              <div class="sort-container col-md-9">
+              <div class="sort-container col-9">
                 <div class="row">
                   <div class="sort-option sort-option-relevancy col-4">
                     <button class="btn-sort sort-btn-published-desc sort-active text-decoration-none bg-transparent border-0" type="button">
@@ -1407,12 +1407,18 @@ init();
 // To Do List
 // A. Refactoring code  - *STARTED
 // B. Media query - *STARTED
-// B0. BOOKMARK! what to do
-// B1. Footer: Move to bottom when small screen, HOW?
-// B2. Make sure font size change looks good, once change to up and down, consider making fonts bigger
+// B0. FIXED***: BOOKMARK! what to do, just shrink, done
+// B1. FIXED***: Footer: Move to bottom when small screen, HOW? (moved to outside of container)
+// B2. Make sure font size change looks good, once change to up and down, consider making fonts bigger for all especially in results
+// B3. FIXED***: Make sure the content will shrink along with the window as things get below medium size (now doesn't shrink)
 // B3. Search results image, consider moving down instead of on the side
-// B4. Make sure search options displays look good, maybe put sort options into all one column
+// B4. FIXED***: Make sure search options displays look good, maybe put sort options into all one column
 // B5. Change the welcome message from news pane to results pane, if no better other way
+// B6. FIXED***: Bookmark button and See full article button make sure they both appear when small screen
+// B7. Bookmark button and See full article button make sure they have enough padding/margin bottom when medium screen
+// B8. Change media query px to rem
+// B9. Change margin of pagination (bottom and top especially on queries), move pagination container to top?
+// B10.Move the logo to align with content when screen gets smaller
 // C. Write process doc for algorithm
 // D. Clear console logs
 // E. Clear formatting
@@ -1422,3 +1428,4 @@ init();
 // 2. Currently the preview bookmark buttons are hidden (opacity 0); Later if needed, consider adding preview bookmark buttons for additional functionality
 // 3. Add a button to delete bookmark and local storage with a button click (where?)
 // 4. Add fade transitions to news display
+// 5. Add back to page top button
