@@ -272,20 +272,20 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
   const optionsMarkup = `
             <!-- results totals container-->
             <div class="results-total-container row align-items-center">
-              <div class="results-total-title-container col-5 col-lg-12 col-xl-5 d-flex">
+              <div class="results-total-title-container col-sm-5 col-lg-12 col-xl-5 d-flex">
                 <div class="row">      
                   <div class="col-8">
                     <p class="results-total-title font-orange-bold mb-1">Total Results:</p>
                   </div>
                   <div class="col-4">
-                    <p class="results-total-num col-4 mb-0 fw-bold fst-italic">${
+                    <p class="results-total-num mb-0 fw-bold fst-italic">${
                       totalResults >= 10000 ? "10000+" : totalResults
                     }</p>
                   </div>
                 </div>
               </div>
 
-              <div class="results-total-page-container col-5 col-lg-12 col-xl-5 d-flex">
+              <div class="results-total-page-container col-sm-5 col-lg-12 col-xl-5 d-flex">
                 <div class="row">      
                   <div class="col-8">
                     <p class="results-total-page font-orange-bold mb-0">Total Pages:</p>
@@ -298,7 +298,7 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
                 </div>
               </div>
 
-              <div class="results-page-container col-2 col-lg-12 col-xl-2 d-flex">
+              <div class="results-page-container col-sm-2 col-lg-12 col-xl-2 d-flex">
                 <div class="row">      
                   <div class="col-8">
                     <p class="results-page font-orange-bold mb-0">Page:</p>
@@ -310,13 +310,13 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
               </div>
             </div>
             <!-- Sort options container -->
-            <div class="sort-options-container row align-items-center">
+            <div class="sort-options-container row align-items-start flex-column flex-sm-row">
               <!-- "sort by" -->
-              <div class="sort-title col-3">
+              <div class="sort-title col-2 col-sm-3">
                 <p class="mb-0 font-orange-bold">Sort by:</p>
               </div>
               <!-- sort options -->
-              <div class="sort-container col-9">
+              <div class="sort-container col-3 col-sm-9">
                 <div class="row">
                   <div class="sort-option sort-option-relevancy col-4">
                     <button class="btn-sort sort-btn-published-desc sort-active text-decoration-none bg-transparent border-0" type="button">
@@ -1412,7 +1412,7 @@ init();
 // B2. Make sure font size change looks good, once change to up and down, consider making fonts bigger for all especially in results
 // B3. FIXED***: Make sure the content will shrink along with the window as things get below medium size (now doesn't shrink)
 // B3. Search results image, consider moving down instead of on the side
-// B4. FIXED***: Make sure search options displays look good, maybe put sort options into all one column
+// B4. !!!FIXED***: Make sure search options displays look good, When getting below md(?) shrink the col of the sort options to make them more aligned to the left if possible to look better
 // B5. Change the welcome message from news pane to results pane, if no better other way
 // B6. FIXED***: Bookmark button and See full article button make sure they both appear when small screen
 // B7. Bookmark button and See full article button make sure they have enough padding/margin bottom when medium screen
