@@ -193,7 +193,7 @@ function renderSearchResults(data) {
       // Create two different markups with Image either available or not available, then use those variables in below generated markup in the ternary operation
       const markupWithImage = `
       <!-- Col containing source and title - flexbox -->
-      <div class="preview-data col-8 d-flex flex-column">
+      <div class="preview-data col-lg-8 d-flex flex-column">
         <p class="preview__publisher">${result.source}</p>
         <h4 class="preview__title">
           ${result.title}
@@ -201,12 +201,12 @@ function renderSearchResults(data) {
       </div>
       <!-- Col containing url img -->
       <div
-        class="preview-fig-container col-4 d-flex justify-content-end"
+        class="preview-fig-container col-4 col-sm-3 col-md-2 col-lg-4 d-flex"
       >
         <figure class="preview__fig">
           <img
             src="${result.image}"
-            alt="newsImg"
+            alt="news image"
           />
         </figure>
       </div>`;
@@ -227,7 +227,7 @@ function renderSearchResults(data) {
                 <!-- Flexbox Vertical -->
                 <div class="preview-container d-flex flex-column">
                   <!-- Top grid -->
-                  <div class="preview-info row">
+                  <div class="preview-info row justify-content-between d-flex flex-column flex-lg-row">
                     ${result.image ? markupWithImage : markupWithoutImage}
                   </div>
                   <!-- Bottom grid -->
@@ -830,7 +830,7 @@ function renderBookmarks(bookmarksArray) {
       <figure class="preview__fig">
         <img
           src="${bookmark.image}"
-          alt="newsImg"
+          alt="news image"
         />
       </figure>
     </div>`;
@@ -1411,14 +1411,15 @@ init();
 // B1. FIXED***: Footer: Move to bottom when small screen, HOW? (moved to outside of container)
 // B2. Make sure font size change looks good, once change to up and down, consider making fonts bigger for all especially in results
 // B3. FIXED***: Make sure the content will shrink along with the window as things get below medium size (now doesn't shrink)
-// B3. Search results image, consider moving down instead of on the side
-// B4. !!!FIXED***: Make sure search options displays look good, When getting below md(?) shrink the col of the sort options to make them more aligned to the left if possible to look better
+// B3. FIXED***: Search results image, consider moving down instead of on the side
+// B4. FIXED***: Make sure search options displays look good, When getting below md(?) shrink the col of the sort options to make them more aligned to the left if possible to look better
 // B5. Change the welcome message from news pane to results pane, if no better other way
 // B6. FIXED***: Bookmark button and See full article button make sure they both appear when small screen
 // B7. Bookmark button and See full article button make sure they have enough padding/margin bottom when medium screen
 // B8. Change media query px to rem
 // B9. Change margin of pagination (bottom and top especially on queries), move pagination container to top?
 // B10.Move the logo to align with content when screen gets smaller
+// B11.Total Results displayed (options when 10000+, medium viewscreen, looks off)
 // C. Write process doc for algorithm
 // D. Clear console logs
 // E. Clear formatting
