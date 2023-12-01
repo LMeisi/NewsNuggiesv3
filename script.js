@@ -1413,13 +1413,15 @@ init();
 // B3. FIXED***: Make sure the content will shrink along with the window as things get below medium size (now doesn't shrink)
 // B3. FIXED***: Search results image, consider moving down instead of on the side
 // B4. FIXED***: Make sure search options displays look good, When getting below md(?) shrink the col of the sort options to make them more aligned to the left if possible to look better
-// B5. Change the welcome message from news pane to results pane, if no better other way
+// B5. FIXED***: Change the welcome message from news pane to results pane, if no better other way
+// B5a Make sure Logic is Good after B5 welcome message change
 // B6. FIXED***: Bookmark button and See full article button make sure they both appear when small screen
 // B7. Bookmark button and See full article button make sure they have enough padding/margin bottom when medium screen
 // B8. Change media query px to rem
 // B9. Change margin of pagination (bottom and top especially on queries), move pagination container to top?
 // B10.Move the logo to align with content when screen gets smaller
 // B11.Total Results displayed (options when 10000+, medium viewscreen, looks off)
+// B12.Make sure the outer margin of the container looks good on different screen sizes
 // C. Write process doc for algorithm
 // D. Clear console logs
 // E. Clear formatting
