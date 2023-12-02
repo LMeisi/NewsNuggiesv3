@@ -15,6 +15,7 @@ const searchButton = document.querySelector(".search__btn");
 // Search Results Pane
 const searchField = document.querySelector(".search__field"); // Search input field
 const searchResults = document.querySelector(".search-results"); // Search Results Pane
+const messageStart = document.querySelector(".message-start"); // default message
 const results = document.querySelector(".results"); // Search results
 const resultsOptions = document.querySelector(".results-options"); // sorting options container
 const pagination = document.querySelector(".pagination"); // pagination container
@@ -272,7 +273,7 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
   const optionsMarkup = `
             <!-- results totals container-->
             <div class="results-total-container row align-items-center">
-              <div class="results-total-title-container col-sm-5 col-lg-12 col-xl-5 d-flex">
+              <div class="results-total-title-container col-md-5 col-lg-12 col-xl-5 d-flex">
                 <div class="row">      
                   <div class="col-8">
                     <p class="results-total-title font-orange-bold mb-1">Total Results:</p>
@@ -285,7 +286,7 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
                 </div>
               </div>
 
-              <div class="results-total-page-container col-sm-5 col-lg-12 col-xl-5 d-flex">
+              <div class="results-total-page-container col-md-5 col-lg-12 col-xl-5 d-flex">
                 <div class="row">      
                   <div class="col-8">
                     <p class="results-total-page font-orange-bold mb-0">Total Pages:</p>
@@ -298,7 +299,7 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
                 </div>
               </div>
 
-              <div class="results-page-container col-sm-2 col-lg-12 col-xl-2 d-flex">
+              <div class="results-page-container col-md-2 col-lg-12 col-xl-2 d-flex">
                 <div class="row">      
                   <div class="col-8">
                     <p class="results-page font-orange-bold mb-0">Page:</p>
@@ -310,13 +311,13 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
               </div>
             </div>
             <!-- Sort options container -->
-            <div class="sort-options-container row align-items-start flex-column flex-sm-row">
+            <div class="sort-options-container row align-items-start flex-column flex-md-row">
               <!-- "sort by" -->
-              <div class="sort-title col-2 col-sm-3">
+              <div class="sort-title col-2 col-md-3">
                 <p class="mb-0 font-orange-bold">Sort by:</p>
               </div>
               <!-- sort options -->
-              <div class="sort-container col-3 col-sm-9">
+              <div class="sort-container col-4 col-sm-3 col-md-9">
                 <div class="row">
                   <div class="sort-option sort-option-relevancy col-4">
                     <button class="btn-sort sort-btn-published-desc sort-active text-decoration-none bg-transparent border-0" type="button">
@@ -384,11 +385,15 @@ function renderErrorSearchResults(
 
   // Browser Note for Windows
   const browserNote =
-    "*Note for Windows OS users: Please use Firefox browser and type in the full URL: http://newsnuggies.info";
+    "*Note for Windows OS users: Please use Firefox browser and copy from the full URL: http://newsnuggies.info";
 
   // Browser cache note
   const browserNoteCache =
-    "*Note: Please clear browser cache before Searching for best results.";
+    "*Note: Please clear browser cache before searching for best results.";
+
+  // API limit note
+  const browserNoteLimit =
+    "*Note: Number of searches per month is limited. If limit is reached, search will not work until next month.";
 
   // Generate markup
   const errorMarkup = `
@@ -398,7 +403,7 @@ function renderErrorSearchResults(
             <use href="img/icons.svg#icon-alert-triangle"></use>
           </svg>
         </div>
-        <p>${errorMsg}<br><br><em class="fs-4">${browserNote}<br><br>${browserNoteCache}<em></p>
+        <p>${errorMsg}<br><br><em class="fs-4">${browserNote}<br><br>${browserNoteCache}<br><br>${browserNoteLimit}<em></p>
       </div>
     `;
 
@@ -510,7 +515,8 @@ function renderPagination(totalResults, resultsPerPage, curPage) {
 
 // Function: Clear Search results: results, resultOptions, pagination, also: error/spinner if available
 function clearSearchResults() {
-  // Clear results and resultsOptions and pagination containers
+  // Clear default message results and resultsOptions and pagination containers
+  messageStart.remove();
   results.innerHTML = "";
   resultsOptions.innerHTML = "";
   pagination.innerHTML = "";
@@ -557,7 +563,7 @@ function showSearchResults() {
   searchBtnClick = true;
 
   // Clear news pane
-  clearNews();
+  // clearNews();
 
   // render spinner in search results
   renderSpinnerSearchResults();
@@ -1409,19 +1415,23 @@ init();
 // B. Media query - *STARTED
 // B0. FIXED***: BOOKMARK! what to do, just shrink, done
 // B1. FIXED***: Footer: Move to bottom when small screen, HOW? (moved to outside of container)
-// B2. Make sure font size change looks good, once change to up and down, consider making fonts bigger for all especially in results
+// B2. FIXED***: Make sure font size change looks good, once change to up and down, consider making fonts bigger for all especially in results
+// B2a. Make preview fig (pics) smaller when screen gets smaller
 // B3. FIXED***: Make sure the content will shrink along with the window as things get below medium size (now doesn't shrink)
 // B3. FIXED***: Search results image, consider moving down instead of on the side
 // B4. FIXED***: Make sure search options displays look good, When getting below md(?) shrink the col of the sort options to make them more aligned to the left if possible to look better
 // B5. FIXED***: Change the welcome message from news pane to results pane, if no better other way
-// B5a Make sure Logic is Good after B5 welcome message change
+// B5a FIXED***: Make sure Logic is Good after B5 welcome message change
 // B6. FIXED***: Bookmark button and See full article button make sure they both appear when small screen
 // B7. Bookmark button and See full article button make sure they have enough padding/margin bottom when medium screen
 // B8. Change media query px to rem
-// B9. Change margin of pagination (bottom and top especially on queries), move pagination container to top?
-// B10.Move the logo to align with content when screen gets smaller
-// B11.Total Results displayed (options when 10000+, medium viewscreen, looks off)
-// B12.Make sure the outer margin of the container looks good on different screen sizes
+// B9. FIXED***: Change margin of pagination (bottom and top especially on queries)
+// B10.FIXED***:Move the logo to align with content when screen gets smaller
+// B11. Total Results displayed (options when 10000+, medium viewscreen, looks off)
+// B12: Total pages sometimes also off on medium screen (when page is less than 1000?)
+// B13.FIXED***: Make sure the outer margin of the container looks good on different screen sizes
+// B14. Change left-right padding of news pane to align with results pane when vertical (smaller screen)
+// B15. Move footer margin left to align with search results
 // C. Write process doc for algorithm
 // D. Clear console logs
 // E. Clear formatting
