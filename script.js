@@ -659,7 +659,7 @@ function renderNews(newsToDisplay) {
   // NOTE: To display bookmark icon correctly, needs to call above function to check if the chosen news matches with anything in the bookmark array
   const markup = `
         <!-- news header -->
-        <div class="news-header d-flex flex-column mb-2 mx-4 px-5 pt-5 pb-2">
+        <div class="news-header d-flex flex-column mb-2 mx-4 px-4 px-md-5 pt-5 pb-2">
           <!-- source -->
           <div class="news-source-container">
             <p
@@ -718,7 +718,7 @@ function renderNews(newsToDisplay) {
         </div>
 
         <!-- news img -->
-        <div class="news-img-container mx-4 px-5">
+        <div class="news-img-container mx-4 px-4 px-md-5">
           <img
             class="news-img mb-3 rounded-4 shadow" ${
               newsToDisplay.image
@@ -729,7 +729,7 @@ function renderNews(newsToDisplay) {
         </div>
 
         <!-- news description -->
-        <div class="news-description-container mb-2 mx-4 px-5 pt-4 pb-4">
+        <div class="news-description-container mb-2 mx-4 px-4 px-md-5 pt-4 pb-4">
           <h4 class="news-description lh-base">
            ${newsToDisplay.description}
           </h4>
@@ -737,7 +737,7 @@ function renderNews(newsToDisplay) {
 
         <!-- news source and bookmark button -->
         <div
-          class="news-action-container mx-4 px-5 pt-1 d-flex justify-content-between align-items-center"
+          class="news-action-container mx-4 px-4 px-md-5 pt-1 pb-5 mb-5 d-flex justify-content-between align-items-center"
         >
           <a
             class="news-source-btn-link text-decoration-none me-3"
@@ -1410,28 +1410,28 @@ init();
 // 18. *FIXED: Starting message in news pane? ('start your search or something like that?' check reference) Also changed background colors
 // 19. *FIXED: Change 'full article' color when clicked on (now blue)
 
-// To Do List
+// Refactoring and Media Queries
 // A. Refactoring code  - *STARTED
 // B. Media query - *STARTED
 // B0. FIXED***: BOOKMARK! what to do, just shrink, done
 // B1. FIXED***: Footer: Move to bottom when small screen, HOW? (moved to outside of container)
 // B2. FIXED***: Make sure font size change looks good, once change to up and down, consider making fonts bigger for all especially in results
-// B2a. Make preview fig (pics) smaller when screen gets smaller
+// B2a FIXED***: Make preview fig (pics) smaller when screen gets smaller
 // B3. FIXED***: Make sure the content will shrink along with the window as things get below medium size (now doesn't shrink)
 // B3. FIXED***: Search results image, consider moving down instead of on the side
 // B4. FIXED***: Make sure search options displays look good, When getting below md(?) shrink the col of the sort options to make them more aligned to the left if possible to look better
 // B5. FIXED***: Change the welcome message from news pane to results pane, if no better other way
 // B5a FIXED***: Make sure Logic is Good after B5 welcome message change
 // B6. FIXED***: Bookmark button and See full article button make sure they both appear when small screen
-// B7. Bookmark button and See full article button make sure they have enough padding/margin bottom when medium screen
+// B7. FIXED***: Bookmark button and See full article button make sure they have enough padding/margin bottom when medium screen
 // B8. Change media query px to rem
 // B9. FIXED***: Change margin of pagination (bottom and top especially on queries)
 // B10.FIXED***:Move the logo to align with content when screen gets smaller
 // B11. Total Results displayed (options when 10000+, medium viewscreen, looks off)
 // B12: Total pages sometimes also off on medium screen (when page is less than 1000?)
 // B13.FIXED***: Make sure the outer margin of the container looks good on different screen sizes
-// B14. Change left-right padding of news pane to align with results pane when vertical (smaller screen)
-// B15. Move footer margin left to align with search results
+// B14.FIXED***: Change left-right padding of news pane to align with results pane when vertical (smaller screen)
+// B15.FIXED***: Move footer margin left to align with search results
 // C. Write process doc for algorithm
 // D. Clear console logs
 // E. Clear formatting

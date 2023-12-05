@@ -583,7 +583,8 @@ body {
 
 @media (max-width: 992px) {
   .preview__fig {
-    height: 10rem;
+    /* height: 7rem; */
+    width: 80%;
     margin-top: 1rem !important;
   }
 }
@@ -748,8 +749,20 @@ body {
 .copyright {
   color: #4e4845d7;
   /* margin-top: 4rem; */
-  padding: 0.4rem 5rem;
+  padding: 0.4rem 3.9rem;
   font-size: 1.2rem;
+}
+
+@media (max-width: 992px) {
+  .copyright {
+    padding: 0.4rem 4.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .copyright {
+    padding: 0.4rem 3.2rem;
+  }
 }
 
 .copyright .personal-link:link,
