@@ -272,14 +272,14 @@ function renderSearchResults(data) {
 function renderResultsOptions(totalResults, resultsPerPage, curPage) {
   const optionsMarkup = `
             <!-- results totals container-->
-            <div class="results-total-container row align-items-center">
+            <div class="results-total-container row align-items-center text-nowrap">
               <div class="results-total-title-container col-md-5 col-lg-12 col-xl-5 d-flex">
-                <div class="row">      
+                <div class="row gx-3">      
                   <div class="col-8">
                     <p class="results-total-title font-orange-bold mb-1">Total Results:</p>
                   </div>
-                  <div class="col-4">
-                    <p class="results-total-num mb-0 fw-bold fst-italic">${
+                  <div class="col-4 ps-2">
+                    <p style="text-align:center" class="results-total-num mb-0 fw-bold fst-italic">${
                       totalResults >= 10000 ? "10000+" : totalResults
                     }</p>
                   </div>
@@ -287,12 +287,12 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
               </div>
 
               <div class="results-total-page-container col-md-5 col-lg-12 col-xl-5 d-flex">
-                <div class="row">      
+                <div class="row gx-3">      
                   <div class="col-8">
                     <p class="results-total-page font-orange-bold mb-0">Total Pages:</p>
                   </div>
-                  <div class="col-4">
-                    <p class="results-total-page-num mb-0 fw-bold fst-italic">${Math.ceil(
+                  <div class="col-4 ps-3">
+                    <p style="text-align:center" class="results-total-page-num mb-0 fw-bold fst-italic">${Math.ceil(
                       totalResults / resultsPerPage
                     )}</p>
                   </div>
@@ -300,12 +300,12 @@ function renderResultsOptions(totalResults, resultsPerPage, curPage) {
               </div>
 
               <div class="results-page-container col-md-2 col-lg-12 col-xl-2 d-flex">
-                <div class="row">      
+                <div class="row gx-3">      
                   <div class="col-8">
                     <p class="results-page font-orange-bold mb-0">Page:</p>
                   </div>
-                  <div class="col-4 results-page-num-container">
-                    <p class="results-page-num mb-0 fw-bold fst-italic">${curPage}</p>
+                  <div class="col-4 ps-2 results-page-num-container">
+                    <p style="text-align:center" class="results-page-num mb-0 fw-bold fst-italic">${curPage}</p>
                   </div>
                 </div>
               </div>
@@ -1395,7 +1395,7 @@ init();
 // 4. *FIXED Change the last line of results to '...' if more content isn't shown (use webkit and text-overflow: ellipsis)
 // 5. *FIXED Fix the format of sort options, add 'active' class to denote the chosen sort option; align the sort options to the right side with margins, to align with the page number on the top line
 // 6. *FIXED Pagination: needs to fix when clicking on different sort option, pagination should start from page 1 again, also check if pagination is working correctly
-//            Solved: for pagination, when clearing results, do not clear the options, leave it there; BUT update the current page (remove current, replace with updated page number)
+//           FIXED: for pagination, when clearing results, do not clear the options, leave it there; BUT update the current page (remove current, replace with updated page number)
 // 7. *FIXED Keep the search term there after search button press
 // 8. *FIXED When alredy have content in news pane, and search button is clicked again, the news pane should clear content, now it keeps the old content as new search results load
 // 9. *FIXED (Since unsure how to identify error code for differen browsers, will NOT add error checking for 403 only, instead, use a generic message for all errors) Add error checking for error 403, notifying user to switch browser to firefox, or mobile device for function to work
@@ -1403,12 +1403,12 @@ init();
 // 11.*NO NEED TO FIX Consider clearing news pane when new sort options clicked? (on pagination it's ok to keep the pane i think)
 // 12.*NO NEED TO FIX ALREADY CORRECT: Bookmark: When click to add bookmark, check if the bookmark array already contains the news, if so, do not push again (for news loaded from localstorage, this issue is already solved when 'bookmarked' property is added upon clicking on already bookmarked search result loaded from localstorage)
 // 13.*FIXED: Bookmark: When displaying a news page that already has the bookmark button highlighted, when clicking on it, it stays on highlighted (but actually added again, not delete), need to delete it if it is already highlighted
-// 14. CONTINUE: Understand the current formats
-// 15. *NO NEED TO FIX: Transition the search results and news pane loads (fade in) ? Still need? Not for now, consider as future improvements
-// 16. *FIXED: Change the padding of the description to be a bit less than now (change manually in css, bootstrap is a bit too much)
-// 17. *FIXED: (however, need tuning based on below media query update) media query for sort options top line, change it to line by line showing instead of cramming in 1 liner
-// 18. *FIXED: Starting message in news pane? ('start your search or something like that?' check reference) Also changed background colors
-// 19. *FIXED: Change 'full article' color when clicked on (now blue)
+// 14.*DONE: Understand the current formats
+// 15.*NO NEED TO FIX: Transition the search results and news pane loads (fade in) ? Still need? Not for now, consider as future improvements
+// 16.*FIXED: Change the padding of the description to be a bit less than now (change manually in css, bootstrap is a bit too much)
+// 17.*FIXED: (however, need tuning based on below media query update) media query for sort options top line, change it to line by line showing instead of cramming in 1 liner
+// 18.*FIXED: Starting message in news pane? ('start your search or something like that?' check reference) Also changed background colors
+// 19.*FIXED: Change 'full article' color when clicked on (now blue)
 
 // Refactoring and Media Queries
 // A. Refactoring code  - *STARTED
@@ -1424,14 +1424,13 @@ init();
 // B5a FIXED***: Make sure Logic is Good after B5 welcome message change
 // B6. FIXED***: Bookmark button and See full article button make sure they both appear when small screen
 // B7. FIXED***: Bookmark button and See full article button make sure they have enough padding/margin bottom when medium screen
-// B8. Change media query px to rem
-// B9. FIXED***: Change margin of pagination (bottom and top especially on queries)
-// B10.FIXED***:Move the logo to align with content when screen gets smaller
-// B11. Total Results displayed (options when 10000+, medium viewscreen, looks off)
-// B12: Total pages sometimes also off on medium screen (when page is less than 1000?)
-// B13.FIXED***: Make sure the outer margin of the container looks good on different screen sizes
-// B14.FIXED***: Change left-right padding of news pane to align with results pane when vertical (smaller screen)
-// B15.FIXED***: Move footer margin left to align with search results
+// B8. FIXED***: Change margin of pagination (bottom and top especially on queries)
+// B9. FIXED***:Move the logo to align with content when screen gets smaller
+// B10.FIXED***:Total Results displayed (options when 10000+, medium viewscreen, looks off)
+// B11:FIXED***:Total pages sometimes also off on medium screen (when page is less than 1000?)
+// B12.FIXED***: Make sure the outer margin of the container looks good on different screen sizes
+// B13.FIXED***: Change left-right padding of news pane to align with results pane when vertical (smaller screen)
+// B14.FIXED***: Move footer margin left to align with search results
 // C. Write process doc for algorithm
 // D. Clear console logs
 // E. Clear formatting
