@@ -1332,9 +1332,6 @@ $("body").on("click", ".btn-round-bookmark", function (e) {
     state.news.bookmarked = true;
     // console.log(state.news);
     // 2) Push the current news to bookmarks array
-
-    // CHECK IF bookmark already contains the news!!!
-
     state.bookmarks.push(state.news);
     console.log(state.bookmarks); // check
     // 3) Save the updated bookmarks array to local storage
@@ -1373,7 +1370,7 @@ $("body").on("click", ".btn-round-bookmark", function (e) {
 
 //Execute below upon loading of new page (after loading of page)
 const init = function () {
-  // store local storage bookmarks (in string format) into 'storage' variable
+  // Retrieve local storage bookmarks (in string format) into 'storage' variable
   const storage = localStorage.getItem("bookmarks");
   // If local storage has content, then store the content (parsed: converted from string to stored bookmarks array) into state.bookmarks array
   if (storage) state.bookmarks = JSON.parse(storage);
