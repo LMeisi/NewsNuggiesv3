@@ -1409,7 +1409,7 @@ init();
 
 // Refactoring and Media Queries
 // A. Refactoring code  - *STARTED
-// B. Media query - *STARTED
+// B.  FIXED***: Media query
 // B0. FIXED***: BOOKMARK! what to do, just shrink, done
 // B1. FIXED***: Footer: Move to bottom when small screen, HOW? (moved to outside of container)
 // B2. FIXED***: Make sure font size change looks good, once change to up and down, consider making fonts bigger for all especially in results
@@ -1428,7 +1428,7 @@ init();
 // B12.FIXED***: Make sure the outer margin of the container looks good on different screen sizes
 // B13.FIXED***: Change left-right padding of news pane to align with results pane when vertical (smaller screen)
 // B14.FIXED***: Move footer margin left to align with search results
-// C. Write process doc for algorithm
+// C.  FIXED***: Write process doc for algorithm
 // D. Clear console logs
 // E. Clear formatting
 
