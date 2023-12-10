@@ -24,7 +24,9 @@ const bookmarksList = document.querySelector(".bookmarks__list"); // bookmarks c
 // const errorSearch = document.querySelector(".error-search");
 // const spinnerSearch = document.querySelector(".spinner-search");
 
-// *********** Global State Variables
+// ************************
+// Global State Variables
+// ************************
 // Search button click State: If it's search by 'search button' click, variable is true, otherwise (if clicking on sort buttons), false; default to true
 let searchBtnClick = true;
 // Default to success (200), if loading results return errors, the error code will be assigned here, to display the corresponding error messages
@@ -50,6 +52,9 @@ const state = {
 };
 
 // *********************************
+// Functions
+// *********************************
+
 // Function: Get Query: Function to return search input value
 function getQuery() {
   // Store input value to 'query'
@@ -57,9 +62,6 @@ function getQuery() {
 
   // Store query into state object
   state.search.query = inputQuery;
-
-  // Clear input value
-  // clearInput();
 
   return inputQuery;
 }
@@ -80,18 +82,10 @@ const loadSearchResults = async function (
       state.search.sortBy = "published_desc";
     }
     // Test sort options
-    console.log(state.search.sortBy);
+    // console.log(state.search.sortBy);
 
     // If fetch takes too long, return error
     // Use current sortBy and resultsPerPage values in state object
-
-    // News API
-    // const response = await Promise.race([
-    //   fetch(
-    //     `https://newsapi.org/v2/everything?q=${query}&sortBy=${state.search.sortBy}&pageSize=${state.search.resultsPerPage}&page=${pageNum}&apiKey=${API_KEY}`
-    //   ),
-    //   timeout(TIMEOUT_SEC),
-    // ]);
 
     // Media stack API  https://mediastack.com/documentation
     // sort options: published_desc (default), published_asc, popularity
@@ -100,7 +94,7 @@ const loadSearchResults = async function (
 
     // Calculate Offset Value - Offset value is the index of where the first result to be displayed in all results is located
     const offsetVal = (pageNum - 1) * state.search.resultsPerPage;
-    console.log(offsetVal);
+    // console.log(offsetVal);
 
     const response = await Promise.race([
       fetch(
@@ -114,12 +108,8 @@ const loadSearchResults = async function (
     // Convert JSON to javascript object using json()
     // Data only contains the chosen results on selected page
     const data = await response.json();
-    console.log(response);
-    console.log(data);
-    console.log(data.data);
-    // console.log(data.articles[0].content); // Below data only for own understanding
-    // console.log("Total Results:", data.totalResults);
-    // console.log("Title:", data.articles[0].title);
+    // console.log(response);
+    // console.log(data);
 
     // Set reponse code (defaulted to 200 globally)
     ajaxResponseStatus = response.status;
@@ -127,18 +117,6 @@ const loadSearchResults = async function (
     // If response status isn't OK, throw new error()
     // NOTE: If no results are returned, no error will be thrown, empty results array will be saved to search results. When render, this error will be guarded and checked to print error message
     if (!response.ok) throw new Error(`${response.status}`);
-
-    // Save articles to state object (below way not needed, just save data.article directly into resultsToDisplay object)
-    // Convert(map) the each 'article' object into the object of your own format
-    // state.search.resultsToDisplay = data.articles.map((art) => {
-    //   return {
-    //     title: art.title, // article title
-    //     url: art.url, // article address
-    //     urlToImage: art.urlToImage, // article image
-    //     source: art.source.name, // e.g. a website name
-    //     publishedAt: art.publishedAt, // time of publish
-    //   };
-    // });
 
     // Save the articles object into state object
     state.search.resultsToDisplay = data.data;
@@ -150,19 +128,15 @@ const loadSearchResults = async function (
     state.search.page = pageNum;
 
     // Checking state object
-    console.log(state);
-    console.log(state.search.resultsToDisplay);
-    console.log("Source name:", state.search.resultsToDisplay[0].source);
-    console.log("Sort by:", state.search.sortBy);
-    console.log("query:", state.search.query);
-    console.log("page:", state.search.page);
+    // console.log(state);
+    // console.log(state.search.resultsToDisplay);
 
     // What does it return? Looks program is the same if I don't specify 'return' below (?)
     return state.search.resultsToDisplay;
   } catch (err) {
     //Temp error handling
     console.log(ajaxResponseStatus);
-    console.error(`${err}🩳🩳`);
+    console.error(`${err}`);
 
     // return err
     throw err;
@@ -172,16 +146,13 @@ const loadSearchResults = async function (
 // ********************************* RESULTS PANE RENDER FUNCTIONS
 // Function: Render Search Results ('data' argument passed in is state.search)
 function renderSearchResults(data) {
-  // Clear results, resultOptions, pagination, also: error/spinner if available
-  // clearSearchResults();
-
   // Guard Clause, if returned results are empty (no results returned), render error
   if (data.resultsToDisplay.length == 0) {
     renderErrorSearchResults();
   }
 
   // checking
-  console.log(data.resultsToDisplay);
+  // console.log(data.resultsToDisplay);
 
   // Generate markup for each search result, map and join them into one html code string
   // NOTE::: <!-- Using the fade out way to fade out multiple line truncation for result.title: https://css-tricks.com/line-clampin/ -->
@@ -259,8 +230,7 @@ function renderSearchResults(data) {
   // render results
   results.insertAdjacentHTML("afterbegin", resultsMarkup);
 
-  // Do not call it here, call it inside Search btn handler (showSearchResults()) and sort option btn click handlers, so pagination btn click won't render the sort option again
-  // render results options container
+  // Do not call below function here, call it inside Search btn handler (showSearchResults()) and sort option btn click handlers, so pagination btn click won't render the sort option again
   // renderResultsOptions(data.totalResults, data.resultsPerPage, data.page);
 
   // Render Pagination, pass in current page number (state.search.page)
@@ -381,7 +351,7 @@ function renderErrorSearchResults(
   errorMsg = "No news found for your query. Please try another one!"
 ) {
   // Error Msg check
-  console.log(errorMsg);
+  // console.log(errorMsg);
 
   // Browser Note for Windows
   const browserNote =
@@ -407,43 +377,39 @@ function renderErrorSearchResults(
       </div>
     `;
 
-  // Clear sorting options container and search results & pagination - Not needed, renderSearchResults already cleared it
-
   // render error message
   searchResults.insertAdjacentHTML("afterbegin", errorMarkup);
 }
 
-// Function: Render Error message for HTTP error
+// Function: Render Error message for HTTP error - NOT USED, Consider this function as improvement for the future
 // If no argument passed, use default message
-function renderErrorHttp403(
-  errorMsg = "NOTE: Please use Firefox Browser AND type in the full address 'http://newsnuggies.info' if you are using Windows desktop/laptop, please clear cache before searching. Thank you!"
-) {
-  // Error Msg check
-  console.log(errorMsg);
+// function renderErrorHttp403(
+// errorMsg = "NOTE: Please use Firefox Browser AND type in the full address 'http://newsnuggies.info' if you are using Windows desktop/laptop, please clear cache before searching. Thank you!"
+// ) {
+// Error Msg check
+// console.log(errorMsg);
 
-  // Generate markup
-  const errorMarkup = `
-      <div class="error error-search">
-        <div>
-          <svg>
-            <use href="img/icons.svg#icon-alert-triangle"></use>
-          </svg>
-        </div>
-        <p>${errorMsg}</p>
-      </div>
-    `;
+// Generate markup
+// const errorMarkup = `
+//     <div class="error error-search">
+//       <div>
+//         <svg>
+//           <use href="img/icons.svg#icon-alert-triangle"></use>
+//         </svg>
+//       </div>
+//       <p>${errorMsg}</p>
+//     </div>
+//   `;
 
-  // Clear sorting options container and search results & pagination - Not needed, renderSearchResults already cleared it
-
-  // render error message
-  searchResults.insertAdjacentHTML("afterbegin", errorMarkup);
-}
+// render error message
+// searchResults.insertAdjacentHTML("afterbegin", errorMarkup);
+// }
 
 // Function: Render Pagination based on current page displayed
 function renderPagination(totalResults, resultsPerPage, curPage) {
   // Total number of pages to be displayed for this particular search
   const numPages = Math.ceil(totalResults / resultsPerPage);
-  console.log(numPages);
+  // console.log(numPages);
 
   // Use data attribute 'data-goto' to denote what page the button click to go to (internally for JS to understand)
   // Without data attribute, we wouldn't know which button refers to which page (internally)
@@ -533,9 +499,8 @@ function clearSearchResults() {
 // Function: Clear Search results: results, resultOptions, pagination, also: error/spinner if available EXCEPT SORT OPTIONS
 // Used by Pagination button click only
 function clearSearchResultsKeepSortOptions() {
-  // Clear results and resultsOptions and pagination containers
+  // Clear results and pagination containers
   results.innerHTML = "";
-  // resultsOptions.innerHTML = "";
   pagination.innerHTML = "";
 
   // If error/spinner exists, remove them
@@ -552,7 +517,7 @@ function clearSearchResultsKeepSortOptions() {
 function showSearchResults() {
   // Get query input and save to searchQuery
   let searchQuery = getQuery();
-  console.log(searchQuery);
+  // console.log(searchQuery);
 
   // guard clause - If no search term, exit and do nothing
   if (searchQuery == "") {
@@ -562,24 +527,21 @@ function showSearchResults() {
   // If input exists, set below to true, so when calling loadSearchResults function, sort option will default to 'published_desc'
   searchBtnClick = true;
 
-  // Clear news pane
-  // clearNews();
-
   // render spinner in search results
   renderSpinnerSearchResults();
 
   // Use .then to render loaded results
-  //  Call async LoadSearchResults, after results come back, then render the results, otherwise, wont work!!!
+  // Call async LoadSearchResults, after results come back, then render the results, otherwise, wont work!
   // Pass in the search query and page number (default is 1) to save results to state object
   loadSearchResults(searchQuery, 1)
     .then((p) => {
-      // p is the returned promise, not sure what it is, but doesn't matter, just need to use then here.
+      // p is the returned promise, doesn't matter what it is, just need to use it here.
       // Check statements
-      console.log(state.search.resultsToDisplay);
+      // console.log(state.search.resultsToDisplay);
 
       // Clear spinner
       clearSearchResults();
-      // Render search results based on resultsToDisplay in state object, render pagination
+      // Render search results based on resultsToDisplay in state object, will also render pagination
       // Render doesn't need to be async, all data is already local
       renderSearchResults(state.search);
 
@@ -597,7 +559,7 @@ function showSearchResults() {
       // If search returns error, loadSearResults will return a Promise with an error as its value, that error is caught and error message will be printed
       console.log(err);
 
-      // Show http error message
+      // Show http error message - keep below for potential future improvement
       // if (ajaxResponseStatus == "403") {
       //   console.log(ajaxResponseStatus);
       //   renderErrorHttp403();
@@ -614,9 +576,6 @@ function showSearchResults() {
 function renderErrorNews(
   errorMsg = "We could not find that news. Please try another one!"
 ) {
-  // Error Msg check
-  console.log(errorMsg);
-
   // Generate markup
   const errorMarkup = `
     <div class="error error-news">
@@ -629,26 +588,12 @@ function renderErrorNews(
     </div>
   `;
 
-  // Clear sorting options container and search results & pagination - Not needed, renderSearchResults already cleared it
-
   // render error message
   news.insertAdjacentHTML("afterbegin", errorMarkup);
 }
 
 // Function: clear news pane
 function clearNews() {
-  // Clear results and resultsOptions and pagination containers
-  // results.innerHTML = "";
-  // resultsOptions.innerHTML = "";
-  // pagination.innerHTML = "";
-
-  // // If error/spinner exists, remove them
-  // if (document.querySelector(".error-news") !== null) {
-  //   document.querySelector(".error-news").remove();
-  // }
-  // if (document.querySelector(".spinner-news") !== null) {
-  //   document.querySelector(".spinner-news").remove();
-  // }
   news.innerHTML = "";
 }
 
@@ -809,7 +754,7 @@ function renderEmptyBookmarkMessage() {
 
 // Function: Render bookmarks in the bookmark nav tab
 function renderBookmarks(bookmarksArray) {
-  // 0. Clear bookmarks nav item(?) if so, call clearBookmarks() function
+  // 0. Clear bookmarks
   clearBookmarks();
   // 1. Guard clause: Check if bookmarks array is empty, if so, display 'empty...' message (call renderEmptyBookmarkMessage function)
   if (bookmarksArray.length == 0) {
@@ -897,21 +842,26 @@ function renderBookmarks(bookmarksArray) {
   bookmarksList.insertAdjacentHTML("afterbegin", bookmarksMarkup);
 }
 
-// ********************************* Event Handlers
+// *********************************
+// Event Listeners
+// *********************************
 
 // ************ */
-// Event Handler: On load event, clear input field
+// EVENT LISTENER: On load event, clear input field
+// ************ */
 window.addEventListener("load", (e) => {
   clearInput();
 });
 
 // ************ */
-// Event Handler: Search button click
+// EVENT LISTENER: Search button click
+// ************ */
 // Search button event handler, call showSearchResults() upon click
 searchButton.addEventListener("click", showSearchResults);
 
-// **************
-// Event Handler: "enter" press to invoke Search functionality
+// ************ */
+// EVENT LISTENER: "enter" press to invoke Search functionality
+// ************ */
 //Key 'Enter' Event handler, call showSearchResults() upon 'enter' keydown
 document.addEventListener("keydown", function (e) {
   if (e.key === "Enter" && searchField.value) {
@@ -925,7 +875,7 @@ document.addEventListener("keydown", function (e) {
 // ************ */
 // NOTE: Vanilla javascript won't work here unless use event.target, jQuery is easier here
 $("body").on("click", ".sort-btn-published-desc", function (e) {
-  console.log("sort by descending date");
+  // console.log("sort by descending date");
 
   // Save new sortby value to state object
   state.search.sortBy = "published_desc";
@@ -945,7 +895,7 @@ $("body").on("click", ".sort-btn-published-desc", function (e) {
     .then((p) => {
       // p is the returned promise, not sure what it is, but doesn't matter, just need to use then here.
       // Check statements
-      console.log(state.search.resultsToDisplay);
+      // console.log(state.search.resultsToDisplay);
 
       // Clear spinner
       clearSearchResults();
@@ -982,7 +932,7 @@ $("body").on("click", ".sort-btn-published-desc", function (e) {
 
       // If search returns error, loadSearResults will return a Promise with an error as its value, that error is caught and error message will be printed
       console.log(err);
-      // Show http error message
+      // Show http error message - save below for potential future use if app develops further
       // if (ajaxResponseStatus == "403") {
       //   renderErrorHttp403();
       // } else {
@@ -996,7 +946,7 @@ $("body").on("click", ".sort-btn-published-desc", function (e) {
 // EVENT LISTENER: Sort by Date click
 // ************ */
 $("body").on("click", ".sort-btn-published-asc", function (e) {
-  console.log("sort by ascending date");
+  // console.log("sort by ascending date");
 
   // Save new sortby value to state object
   state.search.sortBy = "published_asc";
@@ -1016,7 +966,7 @@ $("body").on("click", ".sort-btn-published-asc", function (e) {
     .then((p) => {
       // p is the returned promise, not sure what it is, but doesn't matter, just need to use then here.
       // Check statements
-      console.log(state.search.resultsToDisplay);
+      // console.log(state.search.resultsToDisplay);
 
       // Clear spinner
       clearSearchResults();
@@ -1053,7 +1003,7 @@ $("body").on("click", ".sort-btn-published-asc", function (e) {
 
       // If search returns error, loadSearResults will return a Promise with an error as its value, that error is caught and error message will be printed
       console.log(err);
-      // // Show http error message
+      // // Show http error message - save below for potential future use if app develops further
       // if (ajaxResponseStatus == "403") {
       //   renderErrorHttp403();
       // }
@@ -1068,7 +1018,7 @@ $("body").on("click", ".sort-btn-published-asc", function (e) {
 // EVENT LISTENER: Sort by Popularity click
 // ********************
 $("body").on("click", ".sort-btn-published-popularity", function (e) {
-  console.log("sort by popularity clicked");
+  // console.log("sort by popularity clicked");
 
   // Save new sortby value to state object
   state.search.sortBy = "popularity";
@@ -1088,7 +1038,7 @@ $("body").on("click", ".sort-btn-published-popularity", function (e) {
     .then((p) => {
       // p is the returned promise, not sure what it is, but doesn't matter, just need to use then here.
       // Check statements
-      console.log(state.search.resultsToDisplay);
+      // console.log(state.search.resultsToDisplay);
 
       // Clear spinner
       clearSearchResults();
@@ -1124,7 +1074,7 @@ $("body").on("click", ".sort-btn-published-popularity", function (e) {
 
       // If search returns error, loadSearResults will return a Promise with an error as its value, that error is caught and error message will be printed
       console.log(err);
-      // // Show http error message
+      // // Show http error message - save below for potential future use if app develops further
       // if (ajaxResponseStatus == "403") {
       //   renderErrorHttp403();
       // }
@@ -1151,7 +1101,7 @@ $("body").on("click", ".pagination", function (e) {
   //'goToPage' is the value of the page that app should go to
   //convert the value to integer
   const goToPage = +btn.dataset.goto;
-  console.log(goToPage);
+  // console.log(goToPage);
 
   //Render new results and render new page
 
@@ -1167,7 +1117,7 @@ $("body").on("click", ".pagination", function (e) {
     .then((p) => {
       // p is the returned promise, not sure what it is, but doesn't matter, just need to use then here.
       // Check statements
-      console.log(state.search.resultsToDisplay);
+      // console.log(state.search.resultsToDisplay);
 
       // Set current page in state to the new page number
       state.search.page = goToPage;
@@ -1196,7 +1146,7 @@ $("body").on("click", ".pagination", function (e) {
 
       // If search returns error, loadSearResults will return a Promise with an error as its value, that error is caught and error message will be printed
       console.log(err);
-      // // Show http error message
+      // // Show http error message - save below for potential future use if app develops further
       // if (ajaxResponseStatus == "403") {
       //   renderErrorHttp403();
       // }
@@ -1223,12 +1173,12 @@ $("body").on("click", ".results", function (e) {
   const resultToDisplayIndex = previewToDisplay.dataset.index;
 
   // Check resultsToDisplay index and the corresponding news result
-  console.log(resultToDisplayIndex);
+  // console.log(resultToDisplayIndex);
   // console.log(state.search.resultsToDisplay[resultToDisplayIndex]);
 
   // Save news to display to variable
   const newsToDisplay = state.search.resultsToDisplay[resultToDisplayIndex];
-  console.log(newsToDisplay);
+  // console.log(newsToDisplay);
 
   // Step 2: Render the clicked result to news pane
   // Clear current news pane
@@ -1240,7 +1190,7 @@ $("body").on("click", ".results", function (e) {
     !newsToDisplay.description &&
     !newsToDisplay.url
   ) {
-    //Fade in news pane (?)
+    //Fade in news pane  - save below for potential future use if app develops further
     // $("news").fadeIn(2000);
 
     // render spinner in news pane
@@ -1269,7 +1219,7 @@ $("body").on("click", ".results", function (e) {
 
     // Assign newsToDisplay to the current news Array in the state object
     state.news = newsToDisplay;
-    console.log(newsToDisplay);
+    // console.log(newsToDisplay);
   }
 
   e.preventDefault();
@@ -1286,11 +1236,11 @@ $("body").on("click", ".bookmarks__list", function (e) {
 
   // 2. Find the index and set it to a variable to be used, use the index to locate the bookmark to be displayed
   const bookmarkToDisplayIndex = bookmarkClicked.dataset.bkindex;
-  console.log(bookmarkToDisplayIndex);
+  // console.log(bookmarkToDisplayIndex);
 
   // Use above index to find corresponding bookmark in bookmark array and save the selected bookmark to variable
   const bookmarkToDisplay = state.bookmarks[bookmarkToDisplayIndex];
-  console.log(bookmarkToDisplay);
+  // console.log(bookmarkToDisplay);
 
   // 3. clearNews(), clear news pane
   clearNews();
@@ -1311,7 +1261,7 @@ $("body").on("click", ".bookmarks__list", function (e) {
   }
   // 6. set the displayed bookmarked item to the current state object.
   state.news = bookmarkToDisplay;
-  console.log(state.news);
+  // console.log(state.news);
 
   // 7. Prevent automatic reloading of webpage
   e.preventDefault();
@@ -1333,7 +1283,7 @@ $("body").on("click", ".btn-round-bookmark", function (e) {
     // console.log(state.news);
     // 2) Push the current news to bookmarks array
     state.bookmarks.push(state.news);
-    console.log(state.bookmarks); // check
+    // console.log(state.bookmarks);
     // 3) Save the updated bookmarks array to local storage
     localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
     // 4) Render bookmark icon: rerender bookmark icon in newspane (current news)
@@ -1342,7 +1292,7 @@ $("body").on("click", ".btn-round-bookmark", function (e) {
     );
     // 5) Render: render the bookmarked news to nav bookmark (save new)
     renderBookmarks(state.bookmarks);
-    // 6) Render(?): rerender the bookmark icon in the search results (if available)
+    // 6) Render(?): rerender the bookmark icon in the search results (if available) - potential app development
   }
   // If already bookmarked, delete bookmark
   else {
@@ -1355,7 +1305,7 @@ $("body").on("click", ".btn-round-bookmark", function (e) {
     );
     // 3) delete above bookmark from bookmarks array (below second parameter means: delete just 1 object)
     state.bookmarks.splice(indexBookmark, 1);
-    console.log(state.bookmarks); // check
+    // console.log(state.bookmarks);
     // 3) Save the updated bookmarks array to local storage
     localStorage.setItem("bookmarks", JSON.stringify(state.bookmarks));
     // 4) Render: rerender bookmark icon in newspane (current news)
@@ -1364,7 +1314,7 @@ $("body").on("click", ".btn-round-bookmark", function (e) {
     );
     // 5) Render: render the bookmarked news to nav bookmark (delete it)
     renderBookmarks(state.bookmarks);
-    // 6) Render(?): rerender the bookmark icon in the search results (if available)
+    // 6) Render(?): rerender the bookmark icon in the search results (if available) - potential app development
   }
 });
 
@@ -1374,8 +1324,7 @@ const init = function () {
   const storage = localStorage.getItem("bookmarks");
   // If local storage has content, then store the content (parsed: converted from string to stored bookmarks array) into state.bookmarks array
   if (storage) state.bookmarks = JSON.parse(storage);
-
-  console.log(state.bookmarks); // check
+  // console.log(state.bookmarks); // check
 
   // render bookmarks (from local storage) to bookmarks tab
   renderBookmarks(state.bookmarks);
@@ -1429,7 +1378,7 @@ init();
 // B13.FIXED***: Change left-right padding of news pane to align with results pane when vertical (smaller screen)
 // B14.FIXED***: Move footer margin left to align with search results
 // C.  FIXED***: Write process doc for algorithm
-// D. Clear console logs
+// D.  FIXED***: Clear console logs
 // E. Clear formatting
 
 // Potential Improvements
