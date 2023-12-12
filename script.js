@@ -1355,6 +1355,7 @@ init();
 // 17.*FIXED: (however, need tuning based on below media query update) media query for sort options top line, change it to line by line showing instead of cramming in 1 liner
 // 18.*FIXED: Starting message in news pane? ('start your search or something like that?' check reference) Also changed background colors
 // 19.*FIXED: Change 'full article' color when clicked on (now blue)
+// 20.Scroll on results click to news pane on small-med sized screen
 
 // Refactoring and Media Queries
 // A. Refactoring code  - *STARTED

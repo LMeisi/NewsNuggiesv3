@@ -105,9 +105,6 @@ body {
   }
 }
 
-.btn--small,
-.btn--small:link,
-.btn--small:visited,
 .btn {
   text-transform: uppercase;
   color: #fff;
@@ -120,17 +117,14 @@ body {
   display: flex;
 }
 
-.btn--small:hover,
 .btn:hover {
   transform: scale(1.05);
 }
 
-.btn--small:focus,
 .btn:focus {
   outline: none;
 }
 
-.btn--small > :first-child,
 .btn > :first-child {
   margin-right: 1rem;
 }
@@ -151,23 +145,6 @@ body {
 .btn svg {
   height: 2.25rem;
   width: 2.25rem;
-  fill: currentColor;
-}
-
-.btn--small,
-.btn--small:link,
-.btn--small:visited {
-  padding: 1.25rem 2.25rem;
-  font-size: 1.4rem;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.btn--small svg,
-.btn--small:link svg,
-.btn--small:visited svg {
-  height: 1.75rem;
-  width: 1.75rem;
   fill: currentColor;
 }
 
@@ -242,48 +219,6 @@ body {
   height: 1rem;
   width: 1rem;
   fill: #fff;
-}
-
-.btn--tiny {
-  height: 2rem;
-  width: 2rem;
-  cursor: pointer;
-  background: none;
-  border: none;
-}
-
-.btn--tiny svg {
-  height: 100%;
-  width: 100%;
-  fill: #f38e82;
-  transition: all 0.3s;
-}
-
-.btn--tiny:focus {
-  outline: none;
-}
-
-.btn--tiny:hover svg {
-  fill: #f48982;
-  transform: translateY(-1px);
-}
-
-.btn--tiny:active svg {
-  fill: #f48982;
-  transform: translateY(0);
-}
-
-.btn--tiny:not(:last-child) {
-  margin-right: 0.3rem;
-}
-
-.heading--2 {
-  color: #f38e82;
-  text-transform: uppercase;
-  text-align: center;
-  margin-bottom: 2.5rem;
-  font-size: 2rem;
-  font-weight: 700;
 }
 
 .link:link,
@@ -520,19 +455,6 @@ body {
   list-style: none;
 }
 
-.bookmarks__field {
-  cursor: pointer;
-  height: 100%;
-  align-items: center;
-  padding: 0 4rem;
-  transition: all 0.3s;
-  display: flex;
-}
-
-.bookmarks__field:hover {
-  background-color: #f2efee;
-}
-
 .bookmarks:hover,
 .nav__btn--bookmarks:hover + .bookmarks {
   visibility: visible;
@@ -611,14 +533,6 @@ body {
   display: block;
 }
 
-.preview__data {
-  width: 100%;
-  grid-template-columns: 1fr 2rem;
-  align-items: center;
-  row-gap: 0.1rem;
-  display: grid;
-}
-
 .preview__title {
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -651,7 +565,8 @@ body {
   margin-bottom: 0;
 }
 
-.preview__user-generated {
+/* Potential use for future improvements */
+/* .preview__user-generated {
   height: 2rem;
   width: 2rem;
   background-color: #eeeae8;
@@ -661,13 +576,13 @@ body {
   margin-left: auto;
   margin-right: 1.75rem;
   display: flex;
-}
+} */
 
-.preview__user-generated svg {
+/* .preview__user-generated svg {
   height: 1.2rem;
   width: 1.2rem;
   fill: #f38e82;
-}
+} */
 
 /* Newly added */
 /* Set bookmark display to none doesn't work (why?) */
@@ -784,8 +699,6 @@ body {
 .mediastack-link:active {
   color: #23211fd9;
 }
-
-/*# sourceMappingURL=index.f7626f62.css.map */
 
 /* ////////////////////////////// */
 /* New Formats */
