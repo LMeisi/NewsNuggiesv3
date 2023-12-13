@@ -1357,7 +1357,10 @@ $(document).ready(function () {
 // **********************
 // Scroll To Top Button
 // **********************
-// Scroll Button Fade In Effect
+
+// Embedded Scroll code in index.html
+
+// Scroll Button Fade In Effect Code
 const elementsToFadeInUpOnScroll = document.querySelectorAll(
   ".fade-in-up-on-scroll"
 );
@@ -1372,8 +1375,6 @@ if (elementsToFadeInUpOnScroll) {
     });
   });
 }
-
-// Embedded in index.html for it to work
 
 // BUGS
 // 1. *FIXED NO NEED When results return is invalid - especially img, consider replacing img with a custom made local img with logo
