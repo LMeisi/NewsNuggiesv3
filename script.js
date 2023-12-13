@@ -1402,7 +1402,7 @@ if (elementsToFadeInUpOnScroll) {
 // 22.*FIXED: Add scroll to top button
 
 // Refactoring and Media Queries
-// A. Refactoring code  - *STARTED
+// A.  OK4NOW**: Refactoring code
 // B.  FIXED***: Media query
 // B0. FIXED***: BOOKMARK! what to do, just shrink, done
 // B1. FIXED***: Footer: Move to bottom when small screen, HOW? (moved to outside of container)
