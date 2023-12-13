@@ -736,3 +736,53 @@ body {
 .mediastack-link:active {
   color: #23211fd9;
 }
+
+/* Scroll To Top Button */
+#scrollBtn {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99;
+  /* font-size: 18px; */
+  border: none;
+  outline: none;
+  background-color: #fbdb8981;
+  /* background-color: #b9b9b942; */
+  cursor: pointer;
+  padding: 0px;
+  line-height: 0px;
+  border-radius: 50%;
+  transition: all 0.25s;
+  opacity: 70%;
+  color: #575656c1;
+  width: 50px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  /* box-shadow: 1px 1px 1px #ffffff; */
+}
+
+#scrollBtn:hover {
+  background-color: #fbd589;
+  color: #464646;
+}
+
+.bi-chevron-double-up {
+  font-size: 25px;
+}
+
+/* Scroll Button Fade In CSS */
+@keyframes fadeInUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.fade-in-up {
+  animation: 0.75s both fadeInUp;
+}

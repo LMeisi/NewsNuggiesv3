@@ -1354,6 +1354,27 @@ $(document).ready(function () {
   // jQuery Closer
 });
 
+// **********************
+// Scroll To Top Button
+// **********************
+// Scroll Button Fade In Effect
+const elementsToFadeInUpOnScroll = document.querySelectorAll(
+  ".fade-in-up-on-scroll"
+);
+if (elementsToFadeInUpOnScroll) {
+  window.addEventListener("scroll", function (event) {
+    elementsToFadeInUpOnScroll.forEach(function (element) {
+      if (window.scrollY >= element.offsetTop - window.innerHeight) {
+        element.classList.add("fade-in-up");
+      } else {
+        element.classList.remove("fade-in-up");
+      }
+    });
+  });
+}
+
+// Embedded in index.html for it to work
+
 // BUGS
 // 1. *FIXED NO NEED When results return is invalid - especially img, consider replacing img with a custom made local img with logo
 // 2. *FIXED Sometimes when displaying images (or articles), it moves to the left of the container instead of justifying to the end (right side) WHY??? Height? Width? already set width to 100%...
@@ -1377,7 +1398,7 @@ $(document).ready(function () {
 // 19.*FIXED: Change 'full article' color when clicked on (now blue)
 // 20.*FIXED: Scroll on results click to news pane on small-med sized screen
 // 21.*FIXED: Scroll to top on pagination click
-// 22.Add scroll to top button
+// 22.*FIXED: Add scroll to top button
 
 // Refactoring and Media Queries
 // A. Refactoring code  - *STARTED
@@ -1402,7 +1423,7 @@ $(document).ready(function () {
 // B14.FIXED***: Move footer margin left to align with search results
 // C.  FIXED***: Write process doc for algorithm
 // D.  FIXED***: Clear console logs
-// E. Clear formatting
+// E.  FIXED***: Clear formatting
 
 // Potential Improvements
 // 1. Add languages, search in different languages
