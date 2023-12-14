@@ -37,7 +37,7 @@ body {
   padding-right: 1.6rem;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   body {
     padding-left: 1.4rem;
     padding-right: 1.4rem;
@@ -73,7 +73,6 @@ body {
   box-shadow: 0 2rem 6rem 0.5rem #61555133;
 }
 
-/* Fix change px to rem */
 @media (max-width: 992px) {
   .container-box {
     /* grid-template-columns: 100%; */
@@ -98,14 +97,6 @@ body {
     grid-row-start: 2;
     grid-row-end: 3;
   } */
-}
-
-@media only screen and (max-width: 78.15em) {
-  .container {
-    max-width: 100%;
-    border-radius: 0;
-    margin: 0;
-  }
 }
 
 .btn {
@@ -133,7 +124,6 @@ body {
 }
 
 @media (max-width: 576px) {
-  .btn--small > :first-child,
   .btn > :first-child {
     margin-right: 0;
   }
@@ -143,6 +133,13 @@ body {
   padding: 1.5rem 4rem;
   font-size: 1.5rem;
   font-weight: 600;
+}
+
+@media (max-width: 500px) {
+  .btn {
+    padding: 1rem 2.5rem;
+    font-size: 1.2rem;
+  }
 }
 
 .btn svg {
@@ -210,6 +207,18 @@ body {
   height: 2.5rem;
   width: 2.5rem;
   fill: #fff;
+}
+
+@media (max-width: 500px) {
+  .btn--round {
+    height: 3.5rem;
+    width: 3.5rem;
+  }
+
+  .btn--round svg {
+    height: 2rem;
+    width: 2rem;
+  }
 }
 
 /* Preview bookmark button - newly added */
@@ -314,11 +323,19 @@ body {
   }
 }
 
-/* @media (max-width: 400px) {
+@media (max-width: 500px) {
   .header__logo {
-    height: 5.6rem;
+    height: 5.2rem;
+    margin-left: 1.75rem;
   }
-} */
+}
+
+@media (max-width: 400px) {
+  .header__logo {
+    height: 5rem;
+    margin-left: 1.75rem;
+  }
+}
 
 .search {
   background-color: #fff;
@@ -379,9 +396,33 @@ body {
   }
 }
 
+@media (max-width: 500px) {
+  .search__field {
+    width: 8rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .search__field {
+    width: 5rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .search__field {
+    width: 3.6rem;
+  }
+}
+
 .search__btn {
   font-family: inherit;
   font-weight: 600;
+}
+
+@media (max-width: 850px) {
+  .search__btn {
+    padding: 1.5rem 2.3rem;
+  }
 }
 
 @media (max-width: 576px) {
@@ -390,9 +431,31 @@ body {
   }
 }
 
+@media (max-width: 500px) {
+  .search__btn {
+    padding: 1.2rem 1.2rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .search__btn {
+    padding: 1rem 1rem;
+  }
+  .search__icon {
+    height: 1.7rem !important;
+    width: 1.7rem !important;
+  }
+}
+
 .nav {
   align-self: stretch;
   margin-right: 2.5rem;
+}
+
+@media (max-width: 500px) {
+  .nav {
+    margin-right: 1rem;
+  }
 }
 
 .nav__list {
@@ -401,7 +464,7 @@ body {
   display: flex;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .nav__list {
     padding-left: 0;
   }
@@ -435,6 +498,12 @@ body {
   transform: translateY(-1px);
 }
 
+@media (max-width: 767px) {
+  .nav__btn svg {
+    margin-right: 0;
+  }
+}
+
 .nav__btn:focus {
   outline: none;
 }
@@ -454,6 +523,19 @@ body {
   position: absolute;
   right: -2.5rem;
   box-shadow: 0 0.8rem 5rem 2rem #6155511a;
+}
+
+@media (max-width: 500px) {
+  .bookmarks {
+    width: 35rem;
+    right: -0.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .bookmarks {
+    width: 31rem;
+  }
 }
 
 .bookmarks__list {
@@ -495,6 +577,13 @@ body {
 
 .preview__link--active {
   background-color: #f9f5f3;
+}
+
+@media (max-width: 500px) {
+  .preview__link:link,
+  .preview__link:visited {
+    padding: 1.5rem 1.25rem;
+  }
 }
 
 .preview__fig {
@@ -626,6 +715,13 @@ body {
   /* display: none; */
 }
 
+@media (max-width: 500px) {
+  .results-options {
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
+  }
+}
+
 .pagination {
   margin-top: auto;
   padding-top: 1.1rem;
@@ -634,11 +730,12 @@ body {
   padding-right: 3.85rem;
 }
 
-/* @media (max-width: 768px) {
+@media (max-width: 500px) {
   .pagination {
-    padding-left: 3.5rem;
+    padding-left: 1.85rem;
+    padding-right: 1.85rem;
   }
-} */
+}
 
 .pagination:after {
   content: "";
@@ -672,8 +769,36 @@ body {
   padding-top: 3.7rem !important;
 }
 
+@media (max-width: 500px) {
+  .news-header {
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .news-img-container {
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
+  }
+}
+
 .news-img {
   max-width: 100%;
+}
+
+@media (max-width: 500px) {
+  .news-description-container {
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .news-action-container {
+    margin-left: 0.25rem !important;
+    margin-right: 0.25rem !important;
+  }
 }
 
 .news-source-btn:link,
@@ -685,6 +810,14 @@ body {
 .news-source-btn:active {
   color: #615551e5 !important;
   /* color: #fff !important; */
+}
+
+@media (max-width: 500px) {
+  .news-source-btn:link,
+  .news-source-btn:visited {
+    padding: 1rem 2.5rem !important;
+    font-size: 1.2rem !important;
+  }
 }
 
 /* FOOTER FORMATS */
@@ -711,9 +844,16 @@ body {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .copyright {
     padding: 0.4rem 3.2rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .copyright {
+    padding: 0.4rem 1.75rem;
+    font-size: 1rem;
   }
 }
 
@@ -770,6 +910,17 @@ body {
 
 .bi-chevron-double-up {
   font-size: 25px;
+}
+
+@media (max-width: 500px) {
+  #scrollBtn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .bi-chevron-double-up {
+    font-size: 20px;
+  }
 }
 
 /* Scroll Button Fade In CSS */

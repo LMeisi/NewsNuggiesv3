@@ -285,11 +285,11 @@ $(document).ready(function () {
             <!-- Sort options container -->
             <div class="sort-options-container row align-items-start flex-column flex-md-row">
               <!-- "sort by" -->
-              <div class="sort-title col-2 col-md-3">
+              <div class="sort-title col-3 col-sm-2 col-md-3">
                 <p class="mb-0 font-orange-bold">Sort by:</p>
               </div>
               <!-- sort options -->
-              <div class="sort-container col-4 col-sm-3 col-md-9">
+              <div class="sort-container col-5 col-sm-3 col-md-9">
                 <div class="row">
                   <div class="sort-option sort-option-relevancy col-4">
                     <button class="btn-sort sort-btn-published-desc sort-active text-decoration-none bg-transparent border-0" type="button">
@@ -630,11 +630,11 @@ $(document).ready(function () {
             </h2>
           </div>
           <!-- news author and publish time -->
-          <div class="d-flex news-info-container">
+          <div class="d-flex flex-column flex-sm-row news-info-container">
             <!-- author -->
             <div class="news-author-container d-flex fs-5 pe-4">
               <span>By&nbsp;</span>
-              <p class="news-author fst-italic">${
+              <p class="news-author fst-italic mb-0 mb-sm-2">${
                 newsToDisplay.author
                   ? newsToDisplay.author
                   : "Unspecified author"
@@ -643,7 +643,7 @@ $(document).ready(function () {
             <!-- publish time -->
             <div class="news-pub-time-container d-flex fs-5">
               <span>Updated&nbsp;</span>
-              <p class="news-pub-time fst-italic">${
+              <p class="news-pub-time fst-italic mb-0 mb-sm-2">${
                 newsToDisplay.published_at
                   ? newsToDisplay.published_at.substring(0, 4)
                   : "--"
