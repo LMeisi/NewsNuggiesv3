@@ -549,6 +549,9 @@ body {
 }
 
 /* RESULTS PANE FORMATS */
+.btn-sort {
+  color: #615551;
+}
 
 .sort-active {
   font-weight: 700;
