@@ -644,6 +644,10 @@ body {
   overflow: hidden;
 }
 
+.preview__title__bookmark {
+  max-height: 8rem;
+}
+
 .preview__publisher {
   color: #918581;
   text-transform: uppercase;

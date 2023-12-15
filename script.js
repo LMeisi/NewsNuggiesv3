@@ -772,7 +772,7 @@ $(document).ready(function () {
     <!-- Col containing source and title - flexbox -->
     <div class="preview-data col-8 d-flex flex-column">
       <p class="preview__publisher">${bookmark.source}</p>
-      <h4 class="preview__title">
+      <h4 class="preview__title preview__title__bookmark">
         ${bookmark.title}
       </h4>
     </div>
@@ -792,7 +792,7 @@ $(document).ready(function () {
     <!-- Col containing source and title - flexbox -->
     <div class="preview-data col-12 d-flex flex-column">
       <p class="preview__publisher">${bookmark.source}</p>
-      <h4 class="preview__title">
+      <h4 class="preview__title preview__title__bookmark">
         ${bookmark.title}
       </h4>
     </div>
