@@ -1429,6 +1429,3 @@ if (elementsToFadeInUpOnScroll) {
 // Potential Improvements
 // 1. Add languages, search in different languages
 // 2. Currently the preview bookmark buttons are hidden (opacity 0); Later if needed, consider adding preview bookmark buttons for additional functionality
-// 3. Add a button to delete bookmark and local storage with a button click (where?)
-// 4. Add fade transitions to news display
-// 5. Add back to page top button
